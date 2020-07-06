@@ -1,0 +1,14 @@
+.notification {
+  position: relative;
+  padding: 20px;
+
+  &-close {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+
+  &-content {
+
+  }
+}

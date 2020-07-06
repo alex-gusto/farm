@@ -1,0 +1,19 @@
+.animals-market {
+  width: 920px;
+  background: #fff;
+  display: grid;
+  grid-template-columns: 300px auto;
+
+  &__list {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  &__form {
+
+  }
+}
+
+.ReactModal__Overlay {
+  z-index: 10 !important;
+}

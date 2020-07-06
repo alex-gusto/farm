@@ -1,0 +1,49 @@
+.farm-animal {
+  position: relative;
+
+  &--unselectable {
+    opacity: 0.3;
+    pointer-events: none;
+  }
+
+  &--medium {
+    max-width: 300px;
+  }
+
+  &-label {
+    position: absolute;
+    z-index: 1;
+    top: 9%;
+    right: 15%;
+    background: #fafafa;
+    padding: 2px 25px 0 8px;
+    border-radius: 6px;
+    user-select: none;
+
+    > span {
+      background: #fff;
+      border-radius: 50%;
+      position: absolute;
+      box-shadow: 0 0 2px #333;
+      top: 0;
+      right: 0;
+      transform: translate(50%, -10px);
+      line-height: 35px;
+      width: 35px;
+      text-align: center;
+    }
+  }
+
+  &::before {
+    display: block;
+    padding-top: 100%;
+    content: '';
+  }
+
+  &-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+  }
+}

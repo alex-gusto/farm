@@ -1,0 +1,73 @@
+[
+  {
+    "id": 0,
+    "name": "Chickens",
+    "type": 0,
+    "image": "/img/chicken.svg"
+  },
+  {
+    "id": 1,
+    "name": "Hen",
+    "type": 0,
+    "image": "/img/hen.svg"
+  },
+  {
+    "id": 2,
+    "name": "Rabbits",
+    "type": 0,
+    "image": "/img/rabbits.svg"
+  },
+  {
+    "id": 3,
+    "name": "Goat",
+    "type": 0,
+    "image": "/img/goat.svg"
+  },
+  {
+    "id": 4,
+    "name": "Cow",
+    "type": 0,
+    "image": "/img/cow.svg"
+  },
+  {
+    "id": 5,
+    "name": "Cat",
+    "type": 1,
+    "count": 1,
+    "image": "/img/cat-fox.svg"
+  },
+  {
+    "id": 6,
+    "name": "Dog",
+    "count": 0.6,
+    "type": 1,
+    "image": "/img/dog-bear.svg"
+  },
+  {
+    "id": 7,
+    "name": "Fox",
+    "type": 2,
+    "image": "/img/fox.jpg",
+    "against": [
+      5
+    ],
+    "eats": [
+      0,
+      1
+    ]
+  },
+  {
+    "id": 8,
+    "name": "Bear",
+    "type": 2,
+    "image": "/img/bear.png",
+    "against": [
+      6
+    ],
+    "eats": [
+      2,
+      3,
+      4
+    ]
+  }
+]

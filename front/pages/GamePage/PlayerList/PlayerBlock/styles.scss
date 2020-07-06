@@ -1,0 +1,22 @@
+.player-block {
+  &__name {
+    font-size: 20px;
+  }
+
+  &__farm {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  &__animal {
+    position: relative;
+    padding: 8px 10px;
+  }
+
+  &__count {
+    position: absolute;
+    right: 0;
+    top: 0;
+    font-size: 12px;
+  }
+}

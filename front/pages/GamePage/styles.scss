@@ -1,0 +1,14 @@
+.game-page {
+  display: flex;
+  height: 100vh;
+
+  &__sidebar {
+    flex: 1 0 300px;
+    max-width: 300px;
+  }
+
+  &__inner {
+    flex: 1 1 auto;
+    padding: 10px 30px;
+  }
+}

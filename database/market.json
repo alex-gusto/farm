@@ -1,0 +1,92 @@
+[
+  {
+    "id": 0,
+    "animalId": 0,
+    "exchangeList": [
+      {
+        "id": 1,
+        "coef": "6"
+      }
+    ]
+  },
+  {
+    "id": 1,
+    "animalId": 1,
+    "exchangeList": [
+      {
+        "id": 0,
+        "coef": "1/6"
+      },
+      {
+        "id": 2,
+        "coef": "2"
+      },
+      {
+        "id": 5,
+        "coef": "1"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "animalId": 2,
+    "exchangeList": [
+      {
+        "id": 1,
+        "coef": "1/2"
+      },
+      {
+        "id": 3,
+        "coef": "3"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "animalId": 3,
+    "exchangeList": [
+      {
+        "id": 2,
+        "coef": "1/2"
+      },
+      {
+        "id": 4,
+        "coef": "2"
+      },
+      {
+        "id": 6,
+        "coef": "1"
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "animalId": 4,
+    "exchangeList": [
+      {
+        "id": 3,
+        "coef": "1/2"
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "animalId": 5,
+    "exchangeList": [
+      {
+        "id": 1,
+        "coef": "1"
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "animalId": 6,
+    "exchangeList": [
+      {
+        "id": 3,
+        "coef": "1"
+      }
+    ]
+  }
+]
