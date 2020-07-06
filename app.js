@@ -1,9 +1,7 @@
 const koaLoader = require('@/loaders/koa.loader.js')
 const socketLoader = require('@/loaders/socket.loader.js')
-const path = require('path')
 const http = require('http');
 const router = require('@/routes')
-const { getSocket } = require('@/ws');
 // const template = fs.readFileSync(path.resolve(__dirname, './index.html'))
 
 const port = process.env.PORT || 3000;
