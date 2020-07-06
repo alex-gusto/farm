@@ -73,10 +73,6 @@ module.exports = {
             template: "./index.html",
             inject: 'body'
         }),
-        new webpack.DefinePlugin({
-            'process.env': {
-                API_URL: process.env.API_URL
-            }
-        })
+        new webpack.EnvironmentPlugin(['NODE_ENV', 'API_URL'])
     ]
 };
