@@ -1,7 +1,7 @@
 import socket from './ws'
 import axios from 'axios'
 
-
+console.log(JSON.stringify(process.env))
 const instance = axios.create({
     baseURL: process.env.API_URL || 'http://localhost:3000/api',
     withCredentials: true
