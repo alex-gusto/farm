@@ -72,6 +72,11 @@ module.exports = {
             title: 'Development table',
             template: "./index.html",
             inject: 'body'
+        }),
+        new webpack.DefinePlugin({
+            'process.env': {
+                API_URL: process.env.API_URL
+            }
         })
     ]
 };
