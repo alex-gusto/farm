@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import io from '~/front/api'
 import PlayerBlock from './PlayerBlock'
-import './styles.scss'
 
 class PlayerList extends Component {
     componentDidMount() {
