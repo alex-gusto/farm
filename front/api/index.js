@@ -2,7 +2,7 @@ import socket from './ws'
 import axios from 'axios'
 
 const instance = axios.create({
-    baseURL: process.env.API_URL || 'http://localhost:3000/api',
+    baseURL: process.env.API_URL || 'http://localhost:8080/api',
     withCredentials: true
 })
 

@@ -9,6 +9,7 @@ class AbstractController {
     checkSocketRoom(ctx) {
         const { gameId } = ctx.params
         const socket = this.getSocket(ctx)
+        console.log(socket)
 
         if (socket && gameId && !Object.values(socket.rooms).some(id => id === gameId)) {
             socket.join(gameId)
