@@ -2,7 +2,7 @@
   "name": "farm-node",
   "version": "1.0.0",
   "scripts": {
-    "start": "node index.js",
+    "start": "nodemon index.js",
     "build": "webpack --config ./webpack.config.js",
     "dev": "webpack-dev-server --history-api-fallback --inline --progress --open"
   },

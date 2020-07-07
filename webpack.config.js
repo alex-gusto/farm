@@ -68,7 +68,7 @@ module.exports = {
 
     plugins: [
         new HtmlWebpackPlugin({
-            title: 'Development table',
+            title: 'Farm game',
             template: "./index.html",
             inject: 'body'
         }),
