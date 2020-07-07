@@ -2,9 +2,9 @@ import api from '~/front/api'
 import BaseModal from 'base/BaseModal';
 import React, { Component } from 'react'
 import { withRouter } from "react-router-dom";
-import FarmAnimal from '~/front/components/FarmAnimal'
 import AnimalsMarket from '~/front/components/AnimalsMarket'
 import DiceRoll from '~/front/components/DiceRoll'
+import FarmGrid from '~/front/components/FarmGrid'
 
 class PlayerCanvas extends Component {
     constructor(props) {
@@ -59,11 +59,7 @@ class PlayerCanvas extends Component {
                     <button onClick={this.openMarket}>Market</button>
                 </div>
 
-                <div className="farm-grid">
-                    {
-                        farm.map((animal, key) => <FarmAnimal key={key} {...animal} className={`farm-animal--${key}`}/>)
-                    }
-                </div>
+                <FarmGrid farm={farm}/>
 
                 <BaseModal isOpen={isMarketOpen} closeModal={this.closeMarket}>
                     <AnimalsMarket onClose={this.closeMarket}/>

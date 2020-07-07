@@ -1,56 +1,7 @@
 .player-canvas {
-
-}
-
-.farm-grid {
-  position: relative;
-  background: url('/img/farm-bg.jpg') center/cover no-repeat;
-
-  &:before {
-    display: block;
-    content: '';
-    padding-top: 100% * (768 / 1024);
-  }
-
-  .farm-animal {
-    position: absolute;
-    width: 100%;
-    max-width: 30%;
-
-    &--0 {
-      left: -4%;
-      bottom: -4%;
-    }
-
-    &--1 {
-      left: 38%;
-      bottom: -4%;
-    }
-
-    &--2 {
-      bottom: -4%;
-      left: 66%;
-    }
-
-    &--3 {
-      bottom: 20%;
-      left: 16%;
-    }
-
-    &--4 {
-      bottom: 19%;
-      left: 57%;
-    }
-
-    &--5 {
-      top: 0;
-    }
-
-    &--6 {
-      left: 66%;
-      top: 0;
-    }
-  }
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .game-controls {
