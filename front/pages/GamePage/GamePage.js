@@ -71,6 +71,8 @@ class GamePage extends Component {
                 <section className="game-page__inner">
                     <PlayerCanvas {...this.state.me}/>
                 </section>
+
+                <audio src="/audio/03386.mp3" autoplay loop style={{ visibility: 'hidden' }}></audio>
             </div>
         )
     }
