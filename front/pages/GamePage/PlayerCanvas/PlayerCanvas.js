@@ -55,8 +55,8 @@ class PlayerCanvas extends Component {
                 <h2 className="player-name">Your name is {name}</h2>
 
                 <div className="game-controls">
-                    <button onClick={this.openDice}>Throw Dice</button>
-                    <button onClick={this.openMarket}>Market</button>
+                    <button className="btn btn-outline-primary btn-sm" disabled={!turn} onClick={this.openDice}>Throw Dice</button>
+                    <button className="btn btn-outline-primary btn-sm ml-2" disabled={!turn} onClick={this.openMarket}>Market</button>
                 </div>
 
                 <FarmGrid farm={farm}/>

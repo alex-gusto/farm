@@ -7,11 +7,7 @@ module.exports.onConnection = function onConnection(socket) {
     console.log('connected: ', socket.id)
     sockets.set(socket.id, socket)
 
-    console.log(socket.rooms)
-
-    socket.on('error', (v) => {
-        console.log(v)
-    })
+    socket.on('error', (v) => console.log(v))
 
     socket.on('disconnect', () => {
         sockets.delete(socket.id)
