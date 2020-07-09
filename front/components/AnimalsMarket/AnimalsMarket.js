@@ -1,10 +1,13 @@
 import React, { Component } from 'react'
 import api from '~/front/api'
 import { withRouter } from "react-router-dom";
+import { NotificationContext } from '~/front/providers/NotificationProvider'
 import FarmAnimal from '../FarmAnimal'
 import get from 'lodash/get'
 
 class AnimalsMarket extends Component {
+    static contextType = NotificationContext
+
     constructor(props) {
         super(props);
 
@@ -74,8 +77,11 @@ class AnimalsMarket extends Component {
         try {
             await api.post(`/market/${this.gameId}`, body)
             onClose()
-        } catch (err) {
-            console.dir(err)
+        } catch ({ response }) {
+            this.context.show({
+                content: response.data,
+                type: 'danger'
+            })
         }
     }
 

@@ -34,9 +34,6 @@ class HomePage extends Component {
         const { history } = this.props
         const { data: { gameId } } = await api.post('/games/create', { name: this.state.name })
         history.push(`/${gameId}`)
-
-        const { show } = this.context
-        show('Hello', 0)
     }
 
     joinGame = async () => {

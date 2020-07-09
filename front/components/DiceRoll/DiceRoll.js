@@ -14,10 +14,13 @@ export default function DiceRoll({ gameId, onClose }) {
                 } else {
                     changeResult(data.diceAnimals)
                 }
-            } catch (err) {
-                console.log(err)
+            } catch ({ response }) {
+                this.context.show({
+                    content: response.data,
+                    type: 'danger'
+                })
             } finally {
-                // setTimeout(onClose, 1500)
+                setTimeout(onClose, 1500)
             }
         })()
     }, [])

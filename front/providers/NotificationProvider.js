@@ -1,22 +1,27 @@
-import React, { createContext, useCallback, useState } from 'react'
+import React, { createContext, useState } from 'react'
 
 export const NotificationContext = createContext({
-    content: null,
-    show: () => {},
-    hide: () => {}
+    data: {},
+    show: () => {
+    },
+    hide: () => {
+    }
 })
 
 NotificationContext.displayName = 'NotificationContext'
 
 export default function NotificationProvider({ children }) {
-    const [content, setContent] = useState(null);
+    const [data, setContent] = useState({});
 
-    const hide = () => setContent(null);
-    const show = (message) => setContent(message);
+    const hide = () => setContent({});
+    const show = data => {
+        setContent(data)
+        setTimeout(hide, 1500)
+    };
 
     const contextValue = {
-        content,
-        show: (message, status) => show(message, status),
+        data,
+        show: data => show(data),
         hide: () => hide()
     };
 

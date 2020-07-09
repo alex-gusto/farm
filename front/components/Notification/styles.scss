@@ -1,10 +1,15 @@
 .notification {
   position: fixed;
+  z-index: 999;
   right: 15px;
   bottom: 20px;
   width: 400px;
-  padding: 20px;
-  background: #20c997;
+  transition: transform 0.3s ease-in-out;
+  transform: translate(calc(100% + 20px));
+
+  &--opened {
+    transform: translate(0);
+  }
 
   &-close {
     position: absolute;
