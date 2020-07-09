@@ -2,15 +2,17 @@ import './assets/scss/app.scss';
 
 import React from 'react';
 import Router from './Router'
-import APIErrorProvider from '~/front/providers/APIErrorProvider'
+import NotificationProvider from '~/front/providers/NotificationProvider'
 import Notification from '~/front/components/Notification'
 
 export default function App() {
     return (
-        <div className="game-bg"><APIErrorProvider>
-            <Router/>
-            <Notification/>
-        </APIErrorProvider></div>
+        <div className="game-bg">
+            <NotificationProvider>
+                <Router/>
+                <Notification/>
+            </NotificationProvider>
+        </div>
     )
 }
 

@@ -1,11 +1,15 @@
 .notification {
-  position: relative;
+  position: fixed;
+  right: 15px;
+  bottom: 20px;
+  width: 400px;
   padding: 20px;
+  background: #20c997;
 
   &-close {
     position: absolute;
-    right: 0;
-    top: 0;
+    right: 3px;
+    top: 3px;
   }
 
   &-content {
