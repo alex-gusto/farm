@@ -4,6 +4,7 @@ import { withRouter } from "react-router-dom";
 import io from '~/front/api/ws'
 import PlayerList from './PlayerList'
 import PlayerCanvas from '~/front/pages/GamePage/PlayerCanvas'
+import AudioPlayer from '~/front/components/AudioPlayer'
 import cookie from 'cookie'
 
 class GamePage extends Component {
@@ -72,7 +73,7 @@ class GamePage extends Component {
                     <PlayerCanvas {...this.state.me}/>
                 </section>
 
-                <audio src="/audio/03386.mp3" autoPlay loop style={{ visibility: 'hidden' }}></audio>
+                <AudioPlayer/>
             </div>
         )
     }
