@@ -1,76 +1,90 @@
 import api from '~/front/api'
-import BaseModal from 'base/BaseModal';
+import BaseModal from 'base/BaseModal'
 import React, { Component } from 'react'
-import { withRouter } from "react-router-dom";
+import { withRouter } from 'react-router-dom'
 import AnimalsMarket from '~/front/components/AnimalsMarket'
 import DiceRoll from '~/front/components/DiceRoll'
 import FarmGrid from '~/front/components/FarmGrid'
+import get from 'lodash/get'
 
 class PlayerCanvas extends Component {
-    constructor(props) {
-        super(props)
+  constructor (props) {
+    super(props)
 
-        this.state = {
-            isMarketOpen: false,
-            isDiceOpen: false
-        }
+    this.state = {
+      isMarketOpen: false,
+      isDiceOpen: false,
+      formData: {
+        from: undefined,
+        to: undefined,
+        count: undefined
+      }
     }
+  }
 
-    get gameId() {
-        const { match: { params: { gameId } } } = this.props
-        return gameId
-    }
+  get gameId () {
+    const { match: { params: { gameId } } } = this.props
+    return gameId
+  }
 
-    openMarket = () => {
-        this.setState({
-            isMarketOpen: true
-        })
-    }
+  openMarket = () => {
+    this.setState({
+      isMarketOpen: true
+    })
+  }
 
-    closeMarket = () => {
-        this.setState({
-            isMarketOpen: false
-        })
-    }
+  closeMarket = () => {
+    this.setState({
+      isMarketOpen: false
+    })
+  }
 
-    openDice = () => {
-        this.setState({
-            isDiceOpen: true
-        })
-    }
+  openDice = () => {
+    this.setState({
+      isDiceOpen: true
+    })
+  }
 
-    closeDice = () => {
-        this.setState({
-            isDiceOpen: false
-        })
-    }
+  closeDice = () => {
+    this.setState({
+      isDiceOpen: false
+    })
+  }
 
-    render() {
-        const { farm, turn, name } = this.props
-        const { isMarketOpen, isDiceOpen } = this.state
+  render () {
+    const { farm, turn, name } = this.props
+    const { isMarketOpen, isDiceOpen, formData } = this.state
 
-        return (
-            <div className="player-canvas" style={{ pointerEvents: turn ? 'auto' : 'none' }}>
+    return (
+      <div className="player-canvas" style={{ pointerEvents: turn ? 'auto' : 'none' }}>
 
-                <h2 className="player-name">Your name is {name}</h2>
+        <h2 className="player-name">Your name is {name}</h2>
 
-                <div className="game-controls">
-                    <button className="btn btn-outline-primary btn-sm" disabled={!turn} onClick={this.openDice}>Throw Dice</button>
-                    <button className="btn btn-outline-primary btn-sm ml-2" disabled={!turn} onClick={this.openMarket}>Market</button>
-                </div>
+        <div className="game-controls">
+          <button className="btn btn-outline-primary btn-sm" disabled={!turn} onClick={this.openDice}>Throw Dice
+          </button>
+          <button className="btn btn-outline-primary btn-sm ml-2" disabled={!turn} onClick={this.openMarket}>Market
+          </button>
 
-                <FarmGrid farm={farm}/>
+          {/*<div className="d-flex justify-content-between align-items-center mb-3">*/}
+          {/*<div>*/}
+          {/*Change {get(formData, 'from.name', '-')} to {get(formData, 'to.name', '-')}*/}
+          {/*</div>*/}
+          {/*</div>*/}
+        </div>
 
-                <BaseModal isOpen={isMarketOpen} closeModal={this.closeMarket}>
-                    <AnimalsMarket onClose={this.closeMarket}/>
-                </BaseModal>
+        <FarmGrid farm={farm}/>
 
-                <BaseModal isOpen={isDiceOpen} closeModal={this.closeDice}>
-                    <DiceRoll onClose={this.closeDice} gameId={this.gameId}/>
-                </BaseModal>
-            </div>
-        )
-    }
+        <BaseModal isOpen={isMarketOpen} closeModal={this.closeMarket}>
+          <AnimalsMarket onClose={this.closeMarket}/>
+        </BaseModal>
+
+        <BaseModal isOpen={isDiceOpen} closeModal={this.closeDice}>
+          <DiceRoll onClose={this.closeDice} gameId={this.gameId}/>
+        </BaseModal>
+      </div>
+    )
+  }
 }
 
 export default withRouter(PlayerCanvas)
