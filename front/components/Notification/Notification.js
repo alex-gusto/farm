@@ -1,16 +1,28 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import classnames from 'classnames'
+import { NotificationContext } from '~/front/providers/NotificationProvider'
 
-export default function Notification(props) {
-    const { content, title, timeout } = props
-
-    const close = () => {
-
-    }
+export default function Notification() {
 
     return (
-        <div className="notification">
-            <button onClick={close} className="notification-close">x</button>
-            <div className="notification-content">{content}</div>
-        </div>
+        <NotificationContext.Consumer>
+            {({ data, hide }) => {
+                const { content, type } = data
+                const className = classnames([
+                    'notification alert',
+                    `alert-${type}`,
+                    {
+                        'notification--opened': content
+                    }
+                ])
+
+                return (
+                    <div className={className}>
+                        <button onClick={hide} className="notification-close">x</button>
+                        <div className="notification-content">{content}</div>
+                    </div>
+                )
+            }}
+        </NotificationContext.Consumer>
     )
 }

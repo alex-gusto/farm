@@ -108,6 +108,10 @@ class GameService {
             })
         }
 
+        if (player.isWinner) {
+            throw new Error('You are win!')
+        }
+
         this.nextTurn()
         player.exchangeOnce = 0
 

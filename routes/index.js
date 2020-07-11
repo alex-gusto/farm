@@ -3,7 +3,9 @@ const playerRouter = require('./player.routes')
 const marketRouter = require('./market.routes')
 const Router = require('koa-router')
 
-const router = new Router()
+const router = new Router({
+    prefix: '/api'
+})
 
 router.use('/games', gameRouter.routes(), gameRouter.allowedMethods())
 router.use('/:gameId/players', playerRouter.routes(), playerRouter.allowedMethods())

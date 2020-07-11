@@ -59,7 +59,7 @@ class GameController extends AbstractController {
             ctx.body = { diceAnimals }
         } catch (err) {
             ctx.status = 201
-            ctx.body = 'You win!'
+            ctx.body = 'You are win!'
             const socket = this.getSocket(ctx)
             if (socket) {
                 socket.in(game.id).emit('games:over')

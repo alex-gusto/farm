@@ -4,6 +4,7 @@ import { withRouter } from "react-router-dom";
 import io from '~/front/api/ws'
 import PlayerList from './PlayerList'
 import PlayerCanvas from '~/front/pages/GamePage/PlayerCanvas'
+import AudioPlayer from '~/front/components/AudioPlayer'
 import cookie from 'cookie'
 
 class GamePage extends Component {
@@ -71,6 +72,8 @@ class GamePage extends Component {
                 <section className="game-page__inner">
                     <PlayerCanvas {...this.state.me}/>
                 </section>
+
+                <AudioPlayer/>
             </div>
         )
     }

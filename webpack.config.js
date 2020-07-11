@@ -61,17 +61,17 @@ module.exports = {
         hot: true,
         proxy: {
             '/api': {
-                target: 'http://localhost:3000',
-                pathRewrite: { '^/api': '' }
+                target: 'http://localhost:3000'
             }
         }
     },
 
     plugins: [
         new HtmlWebpackPlugin({
-            title: 'Development table',
+            title: 'Farm game',
             template: "./index.html",
             inject: 'body'
-        })
+        }),
+        new webpack.EnvironmentPlugin(['NODE_ENV', 'API_URL', 'SOCKET_URL'])
     ]
 };

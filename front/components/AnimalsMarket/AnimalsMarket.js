@@ -1,11 +1,13 @@
 import React, { Component } from 'react'
 import api from '~/front/api'
 import { withRouter } from "react-router-dom";
+import { NotificationContext } from '~/front/providers/NotificationProvider'
 import FarmAnimal from '../FarmAnimal'
-import BaseTextField from 'base/BaseTextField'
 import get from 'lodash/get'
 
 class AnimalsMarket extends Component {
+    static contextType = NotificationContext
+
     constructor(props) {
         super(props);
 
@@ -14,7 +16,7 @@ class AnimalsMarket extends Component {
             formData: {
                 from: undefined,
                 to: undefined,
-                count: 0
+                count: undefined
             }
         }
     }
@@ -75,9 +77,17 @@ class AnimalsMarket extends Component {
         try {
             await api.post(`/market/${this.gameId}`, body)
             onClose()
-        } catch (err) {
-            console.dir(err)
+        } catch ({ response }) {
+            this.context.show({
+                content: response.data,
+                type: 'danger'
+            })
         }
+    }
+
+    resetChosenAnimals = () => {
+        this.updateFormData('to')
+        this.updateFormData('from')
     }
 
     render() {
@@ -89,13 +99,15 @@ class AnimalsMarket extends Component {
                 const isSelectable = item.exchangeList.some(k => k.id === formData.from.id)
 
                 return <FarmAnimal
-                    key={key} {...item.animal}
+                    key={key}
+                    {...item.animal}
                     selectable={isSelectable}
                     onClick={() => this.onAnimalClick(item.animal)}
                 />
             } else {
                 return <FarmAnimal
-                    key={key} {...item.animal}
+                    key={key}
+                    {...item.animal}
                     onClick={() => this.onAnimalClick(item.animal)}
                 />
             }
@@ -103,29 +115,47 @@ class AnimalsMarket extends Component {
 
         return (
             <div className="animals-market">
-                <div className="animals-market__form">
-                    <div>
-                        Change {get(formData, 'from.name', '-')} to {get(formData, 'to.name', '-')}
+                <h2 className="text-center">Select animals to change</h2>
+                <div className="row">
+                    <div className="col-sm-3">
+                        <div className="animals-market__form">
+                            <div className="d-flex justify-content-between align-items-center mb-3">
+                                <div>
+                                    Change {get(formData, 'from.name', '-')} to {get(formData, 'to.name', '-')}
+                                </div>
+
+                                <button onClick={this.resetChosenAnimals}>x</button>
+                            </div>
+
+                            <div className="input-group input-group-sm mb-3">
+                                <div className="input-group-prepend" id="button-addon3">
+                                    <button className="btn btn-outline-secondary" type="button">-</button>
+                                </div>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    placeholder="Count"
+                                    onChange={({ target: { value } }) => this.updateFormData('count', value)}
+                                    value={formData['count']}
+                                />
+
+                                <div className="input-group-append" id="button-addon4">
+                                    <button className="btn btn-outline-secondary" type="button">+</button>
+                                </div>
+                            </div>
+
+                            <button className="btn btn-primary btn-sm" onClick={this.exchangeAnimals}>
+                                Exchange
+                            </button>
+                        </div>
                     </div>
-
-                    <div>
-                        <button>x</button>
+                    <div className="col-sm-9">
+                        <div className="animals-market__list">
+                            {
+                                visibleList
+                            }
+                        </div>
                     </div>
-
-                    <BaseTextField
-                        value={formData['count']}
-                        onChange={this.updateFormData.bind(this, 'count')}
-                    />
-
-                    <button onClick={this.exchangeAnimals}>
-                        Exchange
-                    </button>
-                </div>
-
-                <div className="animals-market__list">
-                    {
-                        visibleList
-                    }
                 </div>
             </div>
         )

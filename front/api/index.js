@@ -1,10 +1,8 @@
 import socket from './ws'
 import axios from 'axios'
 
-const API_URL = 'http://localhost:8080/api'
-
 const instance = axios.create({
-    baseURL: API_URL,
+    baseURL: process.env.API_URL || 'http://localhost:8080/api',
     withCredentials: true
 })
 

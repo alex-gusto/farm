@@ -10,6 +10,7 @@ const modalStyles = {
         left: '50%',
         right: 'auto',
         bottom: 'auto',
+        padding: 0,
         transform: 'translate(-50%, -50%)'
     },
     overlay: {

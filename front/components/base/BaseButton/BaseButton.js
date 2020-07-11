@@ -1,10 +1,10 @@
 import React from 'react'
 
 export default function BaseButton(props) {
-    const { onClick, label } = props
+    const { onClick, label, className } = props
 
     return (
-        <button onClick={onClick} className="btn btn-primary">
+        <button onClick={onClick} className="btn btn-outline-primary">
             {
                 label || props.children
             }

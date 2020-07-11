@@ -3,8 +3,11 @@ import BaseButton from 'base/BaseButton'
 import { withRouter } from 'react-router-dom'
 import BaseTextField from 'base/BaseTextField'
 import React, { Component, useState } from 'react'
+import { NotificationContext } from '~/front/providers/NotificationProvider'
 
 class HomePage extends Component {
+    static contextType = NotificationContext
+
     constructor(props) {
         super(props)
 
