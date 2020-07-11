@@ -1,5 +1,10 @@
 .player-block {
+  &--active {
+    background: lightblue;
+  }
+
   &__name {
+    padding: 8px 10px;
     font-size: 20px;
   }
 
