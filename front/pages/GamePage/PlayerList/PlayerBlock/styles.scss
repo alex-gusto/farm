@@ -1,6 +1,10 @@
 .player-block {
-  &--active {
+  &--turn {
     background: lightblue;
+  }
+
+  &--winner {
+    animation: blinkBg 1s infinite;
   }
 
   &__name {
@@ -23,5 +27,23 @@
     right: 0;
     top: 0;
     font-size: 12px;
+  }
+}
+
+@keyframes blinkBg {
+  0% {
+    background: lightblue;
+  }
+  49% {
+    background: lightblue;
+  }
+  60% {
+    background: lightsalmon;
+  }
+  99% {
+    background: lightsalmon;
+  }
+  100% {
+    background: lightblue;
   }
 }

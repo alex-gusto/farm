@@ -2,15 +2,20 @@ import React from 'react'
 import './styles.scss'
 import classnames from 'classnames'
 
-export default function ({ farm, name, turn }) {
+export default function ({ farm, name, turn, isWinner }) {
   const rootClasses = classnames([
     'player-block',
-    { 'player-block--active': turn }
+    { 'player-block--turn': turn },
+    { 'player-block--winner': isWinner }
   ])
+
+  const state = isWinner ? 'win!!!' : turn ? 'is moving' : ''
 
   return (
     <div className={rootClasses}>
-      <div className="player-block__name">{name} {turn && 'is moving'}</div>
+      <div className="player-block__name">
+        {name} {state}
+      </div>
 
       <div className="player-block__farm">
         {farm.map((animal, key) => {

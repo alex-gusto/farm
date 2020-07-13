@@ -1,23 +1,33 @@
-import api from '~/front/api'
 import BaseModal from 'base/BaseModal'
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
-import AnimalsMarket from '~/front/components/AnimalsMarket'
+
+// Components
 import DiceRoll from '~/front/components/DiceRoll'
 import FarmGrid from '~/front/components/FarmGrid'
+
+// Mixins
+import MarketExchangeMixin from './MarketExchange.mixin'
+
+// Providers
+import { NotificationContext } from '~/front/providers/NotificationProvider'
+
+// Utils
 import get from 'lodash/get'
+import compose from 'lodash/fp/compose'
 
 class PlayerCanvas extends Component {
+  static contextType = NotificationContext
+
   constructor (props) {
     super(props)
 
     this.state = {
-      isMarketOpen: false,
       isDiceOpen: false,
       formData: {
         from: undefined,
         to: undefined,
-        count: undefined
+        count: ''
       }
     }
   }
@@ -25,18 +35,6 @@ class PlayerCanvas extends Component {
   get gameId () {
     const { match: { params: { gameId } } } = this.props
     return gameId
-  }
-
-  openMarket = () => {
-    this.setState({
-      isMarketOpen: true
-    })
-  }
-
-  closeMarket = () => {
-    this.setState({
-      isMarketOpen: false
-    })
   }
 
   openDice = () => {
@@ -53,31 +51,60 @@ class PlayerCanvas extends Component {
 
   render () {
     const { farm, turn, name } = this.props
-    const { isMarketOpen, isDiceOpen, formData } = this.state
+    const { isDiceOpen, formData } = this.state
 
     return (
       <div className="player-canvas" style={{ pointerEvents: turn ? 'auto' : 'none' }}>
 
-        <h2 className="player-name">Your name is {name}</h2>
+        <div className="mb-3">
+          <div className="row">
+            <div className="col">
+              <h2 className="player-name">Your name is {name}</h2>
+            </div>
 
-        <div className="game-controls">
-          <button className="btn btn-outline-primary btn-sm" disabled={!turn} onClick={this.openDice}>Throw Dice
-          </button>
-          <button className="btn btn-outline-primary btn-sm ml-2" disabled={!turn} onClick={this.openMarket}>Market
-          </button>
-
-          {/*<div className="d-flex justify-content-between align-items-center mb-3">*/}
-          {/*<div>*/}
-          {/*Change {get(formData, 'from.name', '-')} to {get(formData, 'to.name', '-')}*/}
-          {/*</div>*/}
-          {/*</div>*/}
+            <div className="col-auto">
+              <button className="btn btn-outline-primary btn-sm" disabled={!turn} onClick={this.openDice}>Throw Dice
+              </button>
+            </div>
+          </div>
         </div>
 
-        <FarmGrid farm={farm}/>
+        <div className="mb-3">
+          <div className="row align-items-center">
+            <div className="col">
+              Change {get(formData, 'from.name', '-')} to {get(formData, 'to.name', '-')}
+              <button onClick={this.resetChosenAnimals} className="ml-2">x</button>
+            </div>
 
-        <BaseModal isOpen={isMarketOpen} closeModal={this.closeMarket}>
-          <AnimalsMarket onClose={this.closeMarket}/>
-        </BaseModal>
+            <div className="col-auto">
+              <div className="input-group input-group-sm">
+                <div className="input-group-prepend" id="button-addon3">
+                  <button className="btn btn-outline-secondary" type="button" onClick={this.decrement}>-</button>
+                </div>
+                <input
+                  type="number"
+                  className="form-control"
+                  placeholder="Count"
+                  onChange={({ target: { value } }) => this.updateFormData('count', value)}
+                  value={formData[ 'count' ]}
+                />
+
+                <div className="input-group-append" id="button-addon4">
+                  <button className="btn btn-outline-secondary" type="button" onClick={this.increment}>+</button>
+                </div>
+              </div>
+            </div>
+
+
+            <div className="col-auto">
+              <button className="btn btn-outline-primary btn-sm ml-2" disabled={!turn}
+                      onClick={this.exchangeAnimals}>Exchange
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <FarmGrid farm={farm} onSelect={this.selectAnimal}/>
 
         <BaseModal isOpen={isDiceOpen} closeModal={this.closeDice}>
           <DiceRoll onClose={this.closeDice} gameId={this.gameId}/>
@@ -87,4 +114,4 @@ class PlayerCanvas extends Component {
   }
 }
 
-export default withRouter(PlayerCanvas)
+export default compose(withRouter, MarketExchangeMixin)(PlayerCanvas)
