@@ -41,7 +41,7 @@ class GamePage extends Component {
 
   async getPlayers () {
     try {
-      const { data } = await api(`/${this.gameId}/players`)
+      const { data } = await api(`/games/${this.gameId}`)
       this.updatePlayers(data)
     } catch (err) {
       const { history } = this.props

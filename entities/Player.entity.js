@@ -61,6 +61,13 @@ class PlayerEntity {
         farm[id] = farm[id] + progeny
     }
 
+    bonusAnimal(id, bonus = 0) {
+        const farm = this.farm
+        this._hasResident(id)
+
+        farm[id] = farm[id] + bonus
+    }
+
     eatAnimals(id) {
         const farm = this.farm
         this._hasResident(id)

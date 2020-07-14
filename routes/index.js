@@ -1,15 +1,17 @@
-const gameRouter = require('./game.routes')
-const playerRouter = require('./player.routes')
-const marketRouter = require('./market.routes')
 const Router = require('koa-router')
 
 const router = new Router({
     prefix: '/api'
 })
 
-router.use('/games', gameRouter.routes(), gameRouter.allowedMethods())
-router.use('/:gameId/players', playerRouter.routes(), playerRouter.allowedMethods())
-router.use('/market', marketRouter.routes(), marketRouter.allowedMethods())
+const routes = {
+    '/games': require('./game.routes'),
+    '/market': require('./market.routes'),
+    '/quiz': require('./quiz.routes')
+}
+
+
+Object.entries(routes).forEach(([prefix, route]) => router.use(prefix, route.routes(), route.allowedMethods()))
 
 module.exports = (app) => {
     app.use(router.routes()).use(router.allowedMethods())

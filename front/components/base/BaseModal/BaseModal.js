@@ -14,6 +14,7 @@ const modalStyles = {
         transform: 'translate(-50%, -50%)'
     },
     overlay: {
+        zIndex: 1000,
         backgroundColor: 'papayawhip'
     }
 }
