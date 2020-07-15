@@ -26,7 +26,8 @@ class QuizService {
     }
 
     return Object.entries(answers).every(([ question, answer ]) => {
-      return quiz.list[ question ].toLocaleLowerCase() === answer.trim().toLocaleLowerCase()
+      const _answers = quiz.list[ question ].split(';')
+      return _answers.some(a => a.toLocaleLowerCase() === answer.trim().toLocaleLowerCase())
     })
   }
 }

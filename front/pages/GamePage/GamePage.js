@@ -79,8 +79,8 @@ class GamePage extends Component {
         {
           me.isWinner && (
             <OverLayer>
-              <div className="text-center">
-                <h2 style={{ color: 'tomato', fontSize: '45px' }}>You are win!!!</h2>
+              <div className="py-3 px-4 text-center bg-light rounded">
+                <h2 style={{ color: 'tomato', fontSize: '45px' }}>You win!!!</h2>
                 <button className="btn btn-primary btn-sm" onClick={() => this.props.history.push('/')}>New Game
                 </button>
               </div>
