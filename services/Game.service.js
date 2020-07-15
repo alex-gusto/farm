@@ -114,6 +114,12 @@ class GameService {
     return this.animalsModel.getAnimalsByIds(diceAnimals)
   }
 
+  sendPredator (userId, toUserId, animalId) {
+    const player = this.getPlayer(userId)
+    const playerTo = this.getPlayer(toUserId)
+
+  }
+
   // TODO: set active player
   checkPredators (player, predators, id) {
     const predator = predators.find(predator => predator.id === id)

@@ -61,6 +61,18 @@ class GameController extends AbstractController {
     ctx.io.in(gameId).emit('games:update', { players: game.getPlayers })
   }
 
+  sendPredator = async (ctx) => {
+    const { gameId } = ctx.params
+    const userId = ctx.cookies.get('user_id')
+    const game = GameRepository.getGame(gameId)
+
+    const { id, toUserId } = ctx.request.body
+    game.sendPredator(userId, toUserId, id)
+
+    ctx.body = 'OK'
+    ctx.io.in(gameId).emit('games:update', { players: game.getPlayers })
+  }
+
   getPlayer = (ctx) => {
     const { gameId, userId } = ctx.params
     const game = GameRepository.getGame(gameId)

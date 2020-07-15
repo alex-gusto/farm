@@ -69,5 +69,19 @@
       3,
       4
     ]
+  },
+  {
+    "id": 9,
+    "name": "Wolf",
+    "type": 2,
+    "image": "/img/bear.png",
+    "against": [
+      6,
+      5
+    ],
+    "eats": [
+      1,
+      2
+    ]
   }
 ]
