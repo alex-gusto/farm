@@ -1,35 +1,34 @@
 const QuizzesModel = require('@/models/Quiz.model')
+const shuffle = require('lodash/shuffle')
 
 class QuizService {
-    #model = null
+  #model = null
 
-    constructor() {
-        this.#model = new QuizzesModel()
+  constructor () {
+    this.#model = new QuizzesModel()
+  }
+
+  getQuiz () {
+    const quiz = this.#model.getRandomQuiz()
+    const list = shuffle(Object.keys(quiz.list)).slice(0, 4)
+
+    return {
+      ...quiz,
+      list
+    }
+  }
+
+  checkQuiz (id, answers) {
+    const quiz = this.#model.getQuizById(id)
+
+    if (!quiz) {
+      throw new Error('Quiz not found!')
     }
 
-    getQuiz() {
-        return this.#model.getRandomQuiz()
-    }
-
-    checkQuiz(game, userId, id, answers) {
-        const quiz = this.#model.getQuizById(id)
-
-        if (!quiz) {
-            throw new Error('Quiz not found!')
-        }
-
-        const isCorrect = answers.every((value, i) => {
-            const { answer } = quiz.list[i]
-            return answer.toLocaleLowerCase() === value.trim().toLocaleLowerCase()
-        })
-
-        if (!isCorrect) {
-            throw new Error('Wrong answers. Try again later!')
-        }
-
-        const user = game.getPlayer(userId)
-        user.bonusAnimal(2, 1)
-    }
+    return Object.entries(answers).every(([ question, answer ]) => {
+      return quiz.list[ question ].toLocaleLowerCase() === answer.trim().toLocaleLowerCase()
+    })
+  }
 }
 
 module.exports = QuizService
