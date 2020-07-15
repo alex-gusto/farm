@@ -47,10 +47,10 @@ class QuizBonus extends Component {
     }
 
     checkQuiz = async () => {
-        const { answers } = this.state
+        const { answers, quiz: { id } } = this.state
 
         try {
-            await api.post(`/quiz/${this.gameId}`, { answers })
+            await api.post(`/quiz/${this.gameId}`, { answers, id })
         } catch ({ response }) {
             this.context.show({
                 content: response.data,

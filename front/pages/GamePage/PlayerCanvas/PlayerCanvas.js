@@ -25,7 +25,7 @@ class PlayerCanvas extends Component {
 
         this.state = {
             isDiceOpen: false,
-            isQuizOpen: true,
+            isQuizOpen: false,
             formData: {
                 from: undefined,
                 to: undefined,

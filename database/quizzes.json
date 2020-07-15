@@ -4,16 +4,50 @@
     "name": "Math",
     "list": [
       {
+        "question": "2 * 3 = ?",
+        "answer": "6"
+      },
+      {
         "question": "3 * 3 = ?",
         "answer": "9"
       },
       {
-        "question": "2 * 3 = ?",
-        "answer": "9"
+        "question": "4 * 3 = ?",
+        "answer": "12"
       },
       {
-        "question": "12 * 3 = ?",
-        "answer": "36"
+        "question": "5 * 3 = ?",
+        "answer": "15"
+      },
+      {
+        "question": "6 * 3 = ?",
+        "answer": "18"
+      }
+    ]
+  },
+  {
+    "id": 1,
+    "name": "Italian",
+    "list": [
+      {
+        "question": "Rossi",
+        "answer": "Красный"
+      },
+      {
+        "question": "Anche",
+        "answer": "также"
+      },
+      {
+        "question": "Scuola",
+        "answer": "школа"
+      },
+      {
+        "question": "Naso",
+        "answer": "нос"
+      },
+      {
+        "question": "Divano",
+        "answer": "диван"
       }
     ]
   }

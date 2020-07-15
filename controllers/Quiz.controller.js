@@ -12,10 +12,10 @@ class QuizController extends AbstractController {
     check = async (ctx) => {
         const { gameId } = ctx.params
         const userId = ctx.cookies.get('user_id')
-        const { answers } = ctx.request.body
+        const { answers, id } = ctx.request.body
         const game = GameRepository.getGame(gameId)
 
-        quiz.checkQuiz(game, userId, answers)
+        quiz.checkQuiz(game, userId, id, answers)
 
         ctx.body = 'OK'
 

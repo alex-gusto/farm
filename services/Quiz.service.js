@@ -11,12 +11,16 @@ class QuizService {
         return this.#model.getRandomQuiz()
     }
 
-    checkQuiz(game, userId, answers) {
-        const quiz = this.#model.getRandomQuiz()
+    checkQuiz(game, userId, id, answers) {
+        const quiz = this.#model.getQuizById(id)
+
+        if (!quiz) {
+            throw new Error('Quiz not found!')
+        }
 
         const isCorrect = answers.every((value, i) => {
             const { answer } = quiz.list[i]
-            return answer === value.trim()
+            return answer.toLocaleLowerCase() === value.trim().toLocaleLowerCase()
         })
 
         if (!isCorrect) {

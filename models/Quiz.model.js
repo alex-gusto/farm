@@ -1,9 +1,4 @@
-const priv = new Map()
-const cloneDeep = require('../utils/clone-deep')
-
-const toMap = (arr, key = 'id') => {
-    return arr.reduce((acc, item) => acc.set(item[key], item), new Map())
-}
+const random = require('lodash/random')
 
 class MarketModel {
     #quizzes = []
@@ -17,7 +12,13 @@ class MarketModel {
     }
 
     getRandomQuiz() {
-        return this.#quizzes[0]
+        const count = this.#quizzes.length
+        const index = random(count - 1)
+        return this.#quizzes[index]
+    }
+
+    getQuizById(id) {
+        return this.#quizzes.find(quiz => quiz.id === id)
     }
 
     _load() {
