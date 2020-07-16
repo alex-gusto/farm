@@ -135,7 +135,7 @@ class PlayerCanvas extends Component {
                     <DiceRoll onClose={this.closeDice} gameId={this.gameId}/>
                 </BaseModal>
 
-                <BaseModal isOpen={isQuizOpen} closeModal={this.closeQuizBonus}>
+                <BaseModal isOpen={isQuizOpen} closeModal={this.closeQuizBonus} hasClose={false}>
                     <QuizBonus onClose={this.closeQuizBonus}/>
                 </BaseModal>
             </div>
