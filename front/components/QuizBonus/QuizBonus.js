@@ -68,7 +68,14 @@ class QuizBonus extends Component {
     const { quiz: { name, list }, message } = this.state
 
     const content = () => {
-      if (!list) return message
+      if (!list) {
+        return (
+          <div>
+            <h3>{message}</h3>
+            <button onClick={this.props.onClose} className="ml-2">x</button>
+          </div>
+        )
+      }
 
       return (
         <div>
