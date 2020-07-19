@@ -1,5 +1,7 @@
 .farm-animal {
   position: relative;
+  background: url('/img/cell-bg.png') center/contain no-repeat;
+  cursor: pointer;
 
   &--unselectable {
     opacity: 0.3;
@@ -13,12 +15,13 @@
   &-label {
     position: absolute;
     z-index: 1;
-    top: 9%;
-    right: 15%;
+    bottom: 12%;
+    left: 50%;
     background: #fafafa;
     padding: 2px 25px 0 8px;
     border-radius: 6px;
     user-select: none;
+    transform: translateX(-50%);
 
     > span {
       background: #fff;
@@ -41,9 +44,11 @@
   }
 
   &-image {
+    display: block;
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
+    top: 50%;
+    left: 50%;
+    width: 55%;
+    transform: translate(-53%, -55%);
   }
 }

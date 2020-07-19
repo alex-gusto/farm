@@ -1,0 +1,51 @@
+$c-orange: #dd5313;
+$c-blue-300: #1d6eff;
+$f-base: 'Balsamiq Sans', cursive;
+
+.base-button {
+  position: relative;
+  box-shadow: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  outline: none;
+
+  &--main {
+    width: 200px;
+    height: 97px;
+    color: $c-orange;
+    background: url("/img/main-button.png") center/contain no-repeat;
+    font-size: 18px;
+  }
+
+  &--secondary {
+    width: 100px;
+    height: 60px;
+    font-size: 13px;
+  }
+
+  &--orange {
+    color: $c-orange;
+    background: url("/img/orange-button.png") center/contain no-repeat;
+  }
+
+  &--blue {
+    color: $c-blue-300;
+    background: url("/img/blue-button.png") center/contain no-repeat;
+  }
+
+  &__inner {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: inherit;
+    font-family: $f-base;
+    text-transform: uppercase;
+    font-size: inherit;
+    font-weight: bold;
+    letter-spacing: 0.01em;
+    white-space: nowrap;
+  }
+}

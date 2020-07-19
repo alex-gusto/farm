@@ -4,45 +4,7 @@
 
 .farm-grid {
   position: relative;
-
-  .farm-animal {
-    position: absolute;
-    width: 100%;
-    max-width: 30%;
-
-    &--0 {
-      left: -5%;
-      bottom: -10%;
-    }
-
-    &--1 {
-      left: 20%;
-      bottom: -4%;
-    }
-
-    &--2 {
-      bottom: -4%;
-      left: 66%;
-    }
-
-    &--3 {
-      bottom: 25%;
-      left: 0;
-    }
-
-    &--4 {
-      bottom: 19%;
-      left: 57%;
-    }
-
-    &--5 {
-      bottom: -8%;
-      left: 40%;
-    }
-
-    &--6 {
-      left: 30%;
-      bottom: 25%;
-    }
-  }
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 10px;
 }

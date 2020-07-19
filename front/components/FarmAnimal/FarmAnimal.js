@@ -18,8 +18,8 @@ export default function (props) {
 
   return (
     <div className={rootClassName} onClick={onClick}>
-      {nameContent}
       <img src={image} alt="" className="farm-animal-image"/>
+      {nameContent}
     </div>
   )
 }
