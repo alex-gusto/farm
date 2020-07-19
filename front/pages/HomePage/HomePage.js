@@ -6,73 +6,91 @@ import React, { Component, useState } from 'react'
 import { NotificationContext } from '~/front/providers/NotificationProvider'
 
 class HomePage extends Component {
-    static contextType = NotificationContext
+  static contextType = NotificationContext
 
-    constructor(props) {
-        super(props)
+  constructor (props) {
+    super(props)
 
-        this.state = {
-            gameId: '',
-            name: ''
-        }
+    this.state = {
+      gameId: '',
+      name: ''
     }
+  }
 
-    // methods
-    changeGameId = (value) => {
-        this.setState({
-            gameId: value
-        })
+  // methods
+  changeGameId = (value) => {
+    this.setState({
+      gameId: value
+    })
+  }
+
+  changeName = (value) => {
+    this.setState({
+      name: value
+    })
+  }
+
+  createGame = async () => {
+    const { history } = this.props
+    const { data: { gameId } } = await api.post('/games/create', { name: this.state.name })
+    history.push(`/${gameId}`)
+  }
+
+  joinGame = async () => {
+    const { history } = this.props
+    try {
+      const { data: { gameId } } = await api.put(`/games/${this.state.gameId}`, { name: this.state.name })
+      history.push(`/${gameId}`)
+    } catch (err) {
     }
+  }
 
-    changeName = (value) => {
-        this.setState({
-            name: value
-        })
+  submit = (e) => {
+    e.preventDefault()
+
+    if (this.state.gameId) {
+      this.joinGame()
+    } else {
+      this.createGame()
     }
+  }
 
-    createGame = async () => {
-        const { history } = this.props
-        const { data: { gameId } } = await api.post('/games/create', { name: this.state.name })
-        history.push(`/${gameId}`)
-    }
+  render () {
+    const { gameId, name } = this.state
 
-    joinGame = async () => {
-        const { history } = this.props
-        try {
-            const { data: { gameId } } = await api.put(`/games/${this.state.gameId}`, { name: this.state.name })
-            history.push(`/${gameId}`)
-        } catch (err) {
-        }
-    }
+    return (
+      <div className="home-page">
 
-    render() {
-        return (
-            <div className="home-page">
-                <BaseTextField
-                    value={this.state.name}
-                    placeholder="Enter your name"
-                    onChange={this.changeName}
-                    className="form-spacer"
-                />
+        <div className="game-name">
+        </div>
 
-                <div className="row">
-                    <div className="col-6">
-                        <BaseButton onClick={this.createGame}>New game</BaseButton>
-                    </div>
+        <h2 className="game-title">FARM</h2>
 
-                    <div className="col-6">
-                        <BaseTextField
-                            className="form-spacer"
-                            value={this.state.gameId}
-                            placeholder="game ID"
-                            onChange={this.changeGameId}
-                        />
-                        <BaseButton onClick={this.joinGame}>Join game</BaseButton>
-                    </div>
-                </div>
-            </div>
-        )
-    }
+        <form onSubmit={this.submit} className="new-game-form">
+          <BaseTextField
+            value={name}
+            label="Enter your name"
+            onChange={this.changeName}
+            className="form-spacer"
+          />
+
+          <BaseTextField
+            className="form-spacer"
+            value={gameId}
+            label="Game ID"
+            type="submit"
+            onChange={this.changeGameId}
+          />
+
+          <BaseButton type="submit">
+            {
+              gameId ? 'Join game' : 'New game'
+            }
+          </BaseButton>
+        </form>
+      </div>
+    )
+  }
 }
 
 export default withRouter(HomePage)

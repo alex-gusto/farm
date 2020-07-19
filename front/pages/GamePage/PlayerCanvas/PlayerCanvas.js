@@ -1,3 +1,4 @@
+import BaseButton from 'base/BaseButton'
 import BaseModal from 'base/BaseModal'
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
@@ -68,27 +69,28 @@ class PlayerCanvas extends Component {
     return (
       <div className="player-canvas" style={{ pointerEvents: turn ? 'auto' : 'none' }}>
 
-        <div className="mb-3">
+        <div className="mb-3 text-white">
           <div className="row">
             <div className="col">
               <h2 className="player-name">Your name is {name}</h2>
             </div>
 
             <div className="col-auto">
-              <button className="btn btn-outline-primary btn-sm" disabled={!turn}
-                      onClick={this.openDice}>Throw Dice
-              </button>
+              <BaseButton theme="secondary" color="blue" disabled={!turn}
+                          onClick={this.openDice}>
+                Throw Dice
+              </BaseButton>
             </div>
 
             <div className="col-auto">
-              <button className="btn btn-primary btn-sm" disabled={!turn || quizUsed}
+              <BaseButton theme="secondary" color="orange"  disabled={!turn || quizUsed}
                       onClick={this.openQuizBonus}>Get Bonus
-              </button>
+              </BaseButton>
             </div>
           </div>
         </div>
 
-        <div className="mb-3">
+        <div className="mb-3 text-white">
           <div className="row align-items-center">
             <div className="col">
               Change {get(formData, 'from.name', '-')} to {get(formData, 'to.name', '-')}
@@ -120,9 +122,9 @@ class PlayerCanvas extends Component {
 
 
             <div className="col-auto">
-              <button className="btn btn-outline-primary btn-sm ml-2" disabled={!turn}
+              <BaseButton theme="secondary" color="blue" className="ml-2" disabled={!turn}
                       onClick={this.exchangeAnimals}>Exchange
-              </button>
+              </BaseButton>
             </div>
           </div>
         </div>
