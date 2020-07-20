@@ -2,38 +2,19 @@ $c-orange: #dd5313;
 $c-blue-300: #1d6eff;
 $f-base: 'Balsamiq Sans', cursive;
 
-.base-button {
+.base-icon-button {
   position: relative;
   display: inline-block;
   box-shadow: none;
+  width: 30px;
+  height: 25px;
   border: none;
   padding: 0;
   cursor: pointer;
   outline: none;
-
-  &--main {
-    width: 200px;
-    height: 97px;
-    color: $c-orange;
-    background: url("/img/main-button.png") center/contain no-repeat;
-    font-size: 18px;
-  }
-
-  &--secondary {
-    width: 100px;
-    height: 60px;
-    font-size: 13px;
-  }
-
-  &--orange {
-    color: $c-orange;
-    background: url("/img/orange-button.png") center/contain no-repeat;
-  }
-
-  &--blue {
-    color: $c-blue-300;
-    background: url("/img/blue-button.png") center/contain no-repeat;
-  }
+  font-size: 16px;
+  color: $c-blue-300;
+  background: url("/img/button-icon.png") center/contain no-repeat;
 
   &__inner {
     display: block;

@@ -1,16 +1,16 @@
 $c-blue-900: #000036;
 
 .base-text-field {
+  text-align: left;
 
   &__label {
+    display: block;
     padding-left: 25px;
     color: white;
     letter-spacing: 0.08em;
   }
 
   &__input {
-    width: 350px;
-    height: 80px;
     padding: 25px 30px 20px 25px;
     margin-top: -5px;
     background: url('/img/input.png') center/contain no-repeat;

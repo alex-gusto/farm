@@ -3,3 +3,61 @@
   flex-direction: column;
   height: 100%;
 }
+
+.exchanger {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  color: white;
+  text-align: center;
+  background: url("/img/rect-bg.png") center/contain no-repeat;
+  min-height: 395px;
+  padding: 40px 30px 15px 30px;
+
+  &__cancel {
+    position: absolute;
+    top: 10px;
+    right: 8px;
+  }
+
+  &__title {
+    font-size: 25px;
+    margin-bottom: 20px;
+  }
+
+  &__inner {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    flex: 1 0 auto;
+
+    > span {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+
+  &___footer {
+    flex: 1 0;
+  }
+
+  &-animal {
+    position: relative;
+
+    img {
+      width: 80%;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    &::after {
+      display: block;
+      padding-top: 100%;
+      content: '';
+    }
+  }
+}
