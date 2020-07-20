@@ -2,16 +2,19 @@ import React from 'react'
 import classnames from 'classnames'
 
 export default function BaseButton (props) {
-  const { onClick, label, type = 'button', theme = 'main', color } = props
+  const { onClick, label, type = 'button', theme = 'main', color, disabled = false } = props
 
   const rootClasses = classnames([
     'base-button',
     `base-button--${theme}`,
-    color && `base-button--${color}`
+    color && `base-button--${color}`,
+    {
+      'base-button--disabled': disabled
+    }
   ])
 
   return (
-    <button type={type} onClick={onClick} className={rootClasses}>
+    <button disabled={disabled} type={type} onClick={onClick} className={rootClasses}>
             <span className="base-button__inner">
                 {
                   label || props.children
