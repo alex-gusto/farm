@@ -88,7 +88,7 @@ class GamePage extends Component {
           )
         }
 
-        <AudioPlayer/>
+        {/*<AudioPlayer/>*/}
 
         {/*<footer>*/}
         {/*<a href='https://www.freepik.com/free-photos-vectors/menu'>Menu vector created by vectorpouch -*/}
