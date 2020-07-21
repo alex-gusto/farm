@@ -52,6 +52,7 @@ module.exports = {
         alias: {
             '~': path.resolve(__dirname, '.'),
             'base': path.resolve(__dirname, './front/components/base'),
+            'assets': path.resolve(__dirname, './front/assets'),
             utils: path.resolve(__dirname, './utils')
         }
     },

@@ -2,3 +2,7 @@
   height: 100vh;
   background: url('/img/space-bg.jpg') center/cover no-repeat; // linear-gradient(#4f004f, #000036);
 }
+
+.gs-dev-tools {
+  z-index: 100000;
+}

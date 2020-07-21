@@ -116,11 +116,6 @@ class PlayerCanvas extends Component {
             {/*</div>*/}
             {/*</div>*/}
             {/*</div>*/}
-
-
-            <div className="col-auto">
-
-            </div>
           </div>
         </div>
 
@@ -163,9 +158,7 @@ class PlayerCanvas extends Component {
           </div>
         </div>
 
-        <BaseModal isOpen={isDiceOpen} closeModal={this.closeDice}>
-          <DiceRoll onClose={this.closeDice} gameId={this.gameId}/>
-        </BaseModal>
+        {isDiceOpen && <DiceRoll gameId={this.gameId} onClose={this.closeDice}/>}
 
         <BaseModal isOpen={isQuizOpen} closeModal={this.closeQuizBonus} hasClose={false}>
           <QuizBonus onClose={this.closeQuizBonus}/>
