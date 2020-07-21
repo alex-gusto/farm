@@ -5,6 +5,7 @@ const AbstractController = require('./Abstract.controller')
 // test game
 const game = new GameService('1')
 game.addPlayer('1')
+game.addPlayer('2')
 
 GameRepository.setGame(game.id, game)
 
@@ -61,15 +62,14 @@ class GameController extends AbstractController {
     ctx.io.in(gameId).emit('games:update', { players: game.getPlayers })
   }
 
-  sendPredator = async (ctx) => {
+  sendAnimals = async (ctx) => {
     const { gameId } = ctx.params
-    const userId = ctx.cookies.get('user_id')
+    const userId = '1' // ctx.cookies.get('user_id')
     const game = GameRepository.getGame(gameId)
 
     const { id, toUserId } = ctx.request.body
-    game.sendPredator(userId, toUserId, id)
 
-    ctx.body = 'OK'
+    ctx.body = game.sendAnimals(userId, toUserId, +id)
     ctx.io.in(gameId).emit('games:update', { players: game.getPlayers })
   }
 

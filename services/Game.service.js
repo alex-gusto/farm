@@ -3,8 +3,9 @@ const PlayerEntity = require('../entities/Player.entity')
 const AnimalsModel = require('@/models/Animals.model')
 const MarketEntity = require('@/entities/Market.entity')
 const CubicEntity = require('@/entities/Cubic.entity')
+const cubicConfig = require('@/database/game-cubic')
 
-const cubic = new CubicEntity()
+const cubic = new CubicEntity(cubicConfig)
 
 class GameService {
   #players = []
@@ -65,12 +66,12 @@ class GameService {
 
   addPlayer (id = uuid(), name) {
     console.log('user ', id)
-    const dogs = this.animalsModel.getDogs
-    const nativeAnimals = this.animalsModel.getNativeAnimals
+    const defenders = this.animalsModel.getDogs
+    const animals = this.animalsModel.getAnimals
     const player = this.getPlayer(id)
 
     if (!player) {
-      const player = new PlayerEntity(id, name, nativeAnimals, dogs)
+      const player = new PlayerEntity(id, name, animals, defenders)
       // HARD CODE
       player.breedAnimals(0, 1) // set one duck on init
       this.#players.push(player)
@@ -94,7 +95,6 @@ class GameService {
     const player = this.getPlayer(userId)
 
     const diceAnimals = cubic.throwDice()
-    const predatorAnimals = this.animalsModel.getPredators
 
     const [ a, b ] = diceAnimals
     const bonus = a === b ? 1 : 0
@@ -103,7 +103,7 @@ class GameService {
       this.breedAnimals(player, a, 1)
     } else {
       diceAnimals.forEach(id => {
-        this.checkPredators(player, predatorAnimals, id)
+        this.checkPredators(player, id)
         this.breedAnimals(player, id)
       })
     }
@@ -114,21 +114,29 @@ class GameService {
     return this.animalsModel.getAnimalsByIds(diceAnimals)
   }
 
-  sendPredator (userId, toUserId, animalId) {
+  sendAnimals (userId, toUserId, animalId, count = 1) {
     const player = this.getPlayer(userId)
     const playerTo = this.getPlayer(toUserId)
 
+    // FIXME: need refactor
+    player.isAnimalEnough(animalId, count)
+    player.updateAnimalCount(animalId, -count)
+
+    this.checkPredators(playerTo, animalId)
+
+    return playerTo.farm
   }
 
   // TODO: set active player
-  checkPredators (player, predators, id) {
+  checkPredators (player, id) {
+    const predators = this.animalsModel.getPredators
     const predator = predators.find(predator => predator.id === id)
-    if (predator) {
-      if (player[ `has${predator.against}` ]) {
-        player.eatAnimals(predator.against)
-      } else {
-        this.eatAnimals(player, predator.eats)
-      }
+    if (!predator) return
+
+    if (player[ `has${predator.against}` ]) {
+      player.eatAnimals(predator.against)
+    } else {
+      this.eatAnimals(player, predator.eats)
     }
   }
 

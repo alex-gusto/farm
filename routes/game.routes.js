@@ -10,6 +10,8 @@ router.get('/:gameId/:userId', ctrl.getPlayer)
 
 router.post('/create', ctrl.create)
 
+router.post('/:gameId/send-animals', ctrl.sendAnimals)
+
 router.put('/:gameId', ctrl.join)
 
 router.put('/:gameId/make-move', ctrl.makeMove)
