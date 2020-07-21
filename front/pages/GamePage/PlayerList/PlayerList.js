@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import PlayerBlock from './PlayerBlock'
 
 class PlayerList extends Component {
@@ -13,9 +13,12 @@ class PlayerList extends Component {
     }
 
     return (
-      <ul className="player-list">
-        {body}
-      </ul>
+      <Fragment>
+        <h3 className="text-white">Players</h3>
+        <ul className="player-list">
+          {body}
+        </ul>
+      </Fragment>
     )
   }
 }

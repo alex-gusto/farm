@@ -13,6 +13,8 @@ export default function ({ farm, name, turn, isWinner }) {
 
   return (
     <div className={rootClasses}>
+      <img className="player-block-bg" src="/img/rect-bg.png"/>
+
       <div className="player-block__name">
         {name} {state}
       </div>
