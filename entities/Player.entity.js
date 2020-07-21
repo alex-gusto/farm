@@ -1,4 +1,11 @@
 const FARM = [ 0, 1, 2, 3, 4, 5, 6, 9 ] // HARD CODE ids
+const toWin = {
+  '0': 32,
+  '1': 16,
+  '2': 8,
+  '3': 4,
+  '4': 2
+}
 
 class PlayerEntity {
   #id = null
@@ -28,7 +35,7 @@ class PlayerEntity {
   }
 
   get isWinner () {
-    return Object.values(this.farm).every(animal => animal)
+    return Object.entries(toWin).every(([ id, count ]) => this.farm[ id ] >= count)
   }
 
   _createFarm (animals) {

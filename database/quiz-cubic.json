@@ -1,0 +1,28 @@
+[
+  {
+    "id": 0,
+    "name": "Blue",
+    "probability": [
+      {
+        "id": 1,
+        "times": 4
+      },
+      {
+        "id": 2,
+        "times": 3
+      },
+      {
+        "id": 3,
+        "times": 2
+      },
+      {
+        "id": 4,
+        "times": 1
+      },
+      {
+        "id": 8,
+        "times": 12
+      }
+    ]
+  }
+]

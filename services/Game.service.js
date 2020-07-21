@@ -123,8 +123,6 @@ class GameService {
     player.updateAnimalCount(animalId, -count)
 
     this.checkPredators(playerTo, animalId)
-
-    return playerTo.farm
   }
 
   // TODO: set active player

@@ -49,7 +49,7 @@ export default function DiceRoll ({ gameId, onClose }) {
   useEffect(() => {
     (async () => {
       try {
-        const { data, status } = await api.put(`/games/${gameId}/make-move`)
+        const { data } = await api.put(`/games/${gameId}/make-move`)
         changeResult(data.diceAnimals)
       } catch ({ response }) {
         this.context.show({

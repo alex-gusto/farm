@@ -1,13 +1,19 @@
 import React, { Component, Fragment } from 'react'
 import PlayerBlock from './PlayerBlock'
+import { withRouter } from 'react-router-dom'
 
 class PlayerList extends Component {
+  get gameId () {
+    const { match: { params: { gameId } } } = this.props
+    return gameId
+  }
+
   render () {
     const { players } = this.props
 
     let body
     if (players.length) {
-      body = players.map((player, i) => <li key={i}><PlayerBlock {...player}/></li>)
+      body = players.map((player, i) => <li key={i}><PlayerBlock {...player} gameId={this.gameId}/></li>)
     } else {
       body = <li>No players</li>
     }
@@ -23,4 +29,4 @@ class PlayerList extends Component {
   }
 }
 
-export default PlayerList
+export default withRouter(PlayerList)

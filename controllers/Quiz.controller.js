@@ -1,7 +1,10 @@
 const AbstractController = require('./Abstract.controller')
 const QuizService = require('@/services/Quiz.service')
 const GameRepository = require('@/GameRepository')
+const CubicEntity = require('@/entities/Cubic.entity')
+const cubicConfig = require('@/database/quiz-cubic')
 
+const cubic = new CubicEntity(cubicConfig)
 const quiz = new QuizService()
 
 class QuizController extends AbstractController {
@@ -24,7 +27,9 @@ class QuizController extends AbstractController {
 
     const { answers, id } = ctx.request.body
     if (quiz.checkQuiz(id, answers)) {
-      user.updateAnimalCount(2, 1)
+      const result = cubic.throwDice()
+      result.forEach(id => user.updateAnimalCount(id, 1))
+
       ctx.body = {
         success: true
       }

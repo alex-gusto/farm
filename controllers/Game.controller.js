@@ -64,7 +64,7 @@ class GameController extends AbstractController {
 
   sendAnimals = async (ctx) => {
     const { gameId } = ctx.params
-    const userId = '1' // ctx.cookies.get('user_id')
+    const userId = ctx.cookies.get('user_id')
     const game = GameRepository.getGame(gameId)
 
     const { id, toUserId } = ctx.request.body

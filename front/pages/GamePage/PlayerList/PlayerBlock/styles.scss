@@ -12,11 +12,15 @@
   }
 
   &__name {
+    position: relative;
+    z-index: 2;
     padding: 8px 10px;
     font-size: 20px;
   }
 
   &__farm {
+    position: relative;
+    z-index: 2;
     display: flex;
     flex-wrap: wrap;
   }
