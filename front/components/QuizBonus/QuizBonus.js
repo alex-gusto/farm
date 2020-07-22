@@ -1,16 +1,22 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import api from '~/front/api'
 import { withRouter } from 'react-router-dom'
 import { NotificationContext } from '~/front/providers/NotificationProvider'
 import BaseButton from 'base/BaseButton'
+import FarmAnimal from '~/front/components/FarmAnimal'
 
 class QuizBonus extends Component {
     static contextType = NotificationContext
+    #timer = null
 
     state = {
-        quiz: {},
+        quiz: {
+            list: []
+        },
         answers: {},
-        message: ''
+        message: null,
+        bonusAnimals: null,
+        time: 45
     }
 
     get gameId() {
@@ -29,6 +35,8 @@ class QuizBonus extends Component {
                 quiz: data,
                 answers
             })
+
+            this.runTimer()
         }).catch(({ response }) => {
             this.setState({
                 message: response.data
@@ -37,7 +45,27 @@ class QuizBonus extends Component {
     }
 
     async getQuiz() {
-        return await (await api.get(`/quiz/${this.gameId}`)).data
+        return (await api.get(`/quiz/${this.gameId}`)).data
+    }
+
+    runTimer() {
+        this.#timer = setInterval(() => {
+            this.setState(({ time }) => {
+                const newTime = time - 1
+
+                if (newTime <= 0) {
+                    this.checkQuiz()
+                }
+
+                return {
+                    time: newTime
+                }
+            })
+        }, 1000)
+    }
+
+    destroyTimer() {
+        clearInterval(this.#timer)
     }
 
     changeAnswer(question, value) {
@@ -51,36 +79,57 @@ class QuizBonus extends Component {
     }
 
     checkQuiz = async (e) => {
-        e.preventDefault()
+        this.destroyTimer()
+        if (e) e.preventDefault()
+
         const { answers, quiz: { id } } = this.state
 
         try {
-            await api.post(`/quiz/${this.gameId}`, { answers, id })
+            const { data } = await api.post(`/quiz/${this.gameId}`, { answers, id })
+            this.setBonusAnimal(data)
         } catch ({ response }) {
-            this.context.show({
-                content: response.data,
-                type: 'danger'
+            this.setState({
+                message: response.data
             })
         } finally {
-            this.props.onClose()
+            setTimeout(this.props.onClose, 1500)
         }
     }
 
+    setBonusAnimal(animals) {
+        this.setState({
+            bonusAnimals: animals
+        })
+    }
+
     render() {
-        const { quiz: { name, list }, message } = this.state
+        const { quiz: { name, list }, message, bonusAnimals, time } = this.state
 
         const content = () => {
-            if (!list) {
+            if (message) {
+                return (
+                    <div className="quiz-bonus-fail">
+                        <h3 className="quiz-bonus-title mb-3">{message}</h3>
+                        <BaseButton theme="secondary" color="orange" onClick={this.props.onClose}>OK</BaseButton>
+                    </div>
+                )
+            }
+
+            if (bonusAnimals) {
                 return (
                     <div>
-                        <h3>{message}</h3>
-                        <button onClick={this.props.onClose} className="ml-2">x</button>
+                        <h2 className="quiz-bonus-title">{`You've got ${bonusAnimals.map(animal => animal.name).join(', ')}!`}</h2>
+                        {bonusAnimals.map((animal, key) => <FarmAnimal isNameHidden={true}
+                                                                       className="quiz-bonus-animal"
+                                                                       key={key} {...animal} />)}
                     </div>
                 )
             }
 
             return (
-                <form onSubmit={this.checkQuiz}>
+                <form className="quiz-bonus-form" onSubmit={this.checkQuiz}>
+                    <h2 className="quiz-bonus-title">{name} <span className="quiz-bonus-time">Time: <br/> {time}</span>
+                    </h2>
                     <ul className="list-group mb-3">
                         {
                             list.map((question, key) => (
@@ -100,15 +149,15 @@ class QuizBonus extends Component {
                         }
                     </ul>
 
-                    <BaseButton type="submit">Check</BaseButton>
+                    <div theme="secondary" className="text-center">
+                        <BaseButton type="submit">Check</BaseButton>
+                    </div>
                 </form>
             )
         }
 
         return (
             <div className="quiz-bonus">
-                <h2 className="quiz-bonus-title">{name}</h2>
-
                 {
                     content()
                 }

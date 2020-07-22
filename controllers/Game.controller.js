@@ -5,7 +5,7 @@ const AbstractController = require('./Abstract.controller')
 // test game
 const game = new GameService('1')
 game.addPlayer('1')
-game.addPlayer('2')
+// game.addPlayer('2')
 
 GameRepository.setGame(game.id, game)
 
