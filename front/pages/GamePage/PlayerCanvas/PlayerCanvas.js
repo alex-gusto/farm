@@ -119,8 +119,8 @@ class PlayerCanvas extends Component {
           </div>
         </div>
 
-        <div className="row">
-          <div className="col">
+        <div className="d-flex">
+          <div className="col pr-5">
             <FarmGrid farm={farm} onSelect={this.selectAnimal}/>
           </div>
 
