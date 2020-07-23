@@ -6,6 +6,8 @@ const router = new Router()
 
 router.get('/:gameId', ctrl.getPlayers)
 
+router.delete('/:gameId', ctrl.leave)
+
 router.get('/:gameId/:userId', ctrl.getPlayer)
 
 router.post('/create', ctrl.create)

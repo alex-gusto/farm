@@ -50,6 +50,17 @@ class GameController extends AbstractController {
     }
   }
 
+  leave = async (ctx) => {
+    const { gameId } = ctx.params
+    let userId = ctx.cookies.get('user_id')
+    const game = GameRepository.getGame(gameId)
+
+    game.removePlayer(userId)
+
+    ctx.body = 'OK'
+    ctx.io.in(gameId).emit('games:update', { players: game.getPlayers })
+  }
+
   makeMove = async (ctx) => {
     const { gameId } = ctx.params
     const userId = ctx.cookies.get('user_id')

@@ -151,7 +151,7 @@ class QuizBonus extends Component {
                     </ul>
 
                     <div className="text-center">
-                        <BaseButton theme="secondary" type="submit" disabled={isLoading}
+                        <BaseButton theme="secondary" color="orange" type="submit" disabled={isLoading}
                                     loading={isLoading}>Check</BaseButton>
                     </div>
                 </form>

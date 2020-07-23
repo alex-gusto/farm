@@ -80,6 +80,14 @@ class GameService {
     return id
   }
 
+  removePlayer (id) {
+    const index = this.#players.findIndex(player => player.id === id)
+
+    if (index > -1) {
+      this.#players.splice(index, 1)
+    }
+  }
+
   nextTurn () {
     let turn = this.#turn
     turn++
