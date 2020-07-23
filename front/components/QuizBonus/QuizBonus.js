@@ -16,7 +16,8 @@ class QuizBonus extends Component {
         answers: {},
         message: null,
         bonusAnimals: null,
-        time: 75
+        time: 120,
+        isLoading: false
     }
 
     get gameId() {
@@ -83,7 +84,7 @@ class QuizBonus extends Component {
         if (e) e.preventDefault()
 
         const { answers, quiz: { id } } = this.state
-
+        this.setState({ isLoading: true })
         try {
             const { data } = await api.post(`/quiz/${this.gameId}`, { answers, id })
             this.setBonusAnimal(data)
@@ -103,7 +104,7 @@ class QuizBonus extends Component {
     }
 
     render() {
-        const { quiz: { name, list }, message, bonusAnimals, time } = this.state
+        const { quiz: { name, list }, message, bonusAnimals, time, isLoading } = this.state
 
         const content = () => {
             if (message) {
@@ -149,8 +150,9 @@ class QuizBonus extends Component {
                         }
                     </ul>
 
-                    <div theme="secondary" className="text-center">
-                        <BaseButton type="submit">Check</BaseButton>
+                    <div className="text-center">
+                        <BaseButton theme="secondary" type="submit" disabled={isLoading}
+                                    loading={isLoading}>Check</BaseButton>
                     </div>
                 </form>
             )

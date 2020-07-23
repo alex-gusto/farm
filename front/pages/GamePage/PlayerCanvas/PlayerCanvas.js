@@ -31,7 +31,8 @@ class PlayerCanvas extends Component {
             from: undefined,
             to: undefined,
             count: ''
-        }
+        },
+        isLoading: false
     }
 
     get gameId() {
@@ -41,14 +42,16 @@ class PlayerCanvas extends Component {
 
     openDice = () => {
         this.setState({
-            isDiceOpen: true
+            isDiceOpen: true,
+            isLoading: true
         })
     }
 
     closeDice = () => {
         this.setState({
             isDiceOpen: false,
-            quizUsed: false
+            quizUsed: false,
+            isLoading: false
         })
     }
 
@@ -67,7 +70,7 @@ class PlayerCanvas extends Component {
 
     render() {
         const { farm, turn, name } = this.props
-        const { isDiceOpen, formData, isQuizOpen, quizUsed } = this.state
+        const { isDiceOpen, formData, isQuizOpen, quizUsed, isLoading } = this.state
 
         return (
             <div className="player-canvas" style={{ pointerEvents: turn ? 'auto' : 'none' }}>
@@ -81,7 +84,8 @@ class PlayerCanvas extends Component {
                         </div>
 
                         <div className="col-auto">
-                            <BaseButton theme="secondary" color="blue" disabled={!turn}
+                            <BaseButton theme="secondary" color="blue" disabled={!turn || isLoading}
+                                        loading={isLoading}
                                         onClick={this.openDice}>
                                 Throw Dice
                             </BaseButton>

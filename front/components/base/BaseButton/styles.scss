@@ -11,6 +11,10 @@ $f-base: 'Balsamiq Sans', cursive;
   cursor: pointer;
   outline: none;
 
+  .base-spinner {
+    font-size: 0.25em;
+  }
+
   &--main {
     width: 200px;
     height: 97px;
