@@ -2,7 +2,7 @@ const koaLoader = require('@/loaders/koa.loader.js')
 const socketLoader = require('@/loaders/socket.loader.js')
 const http = require('http');
 const router = require('@/routes')
-// const template = fs.readFileSync(path.resolve(__dirname, './index.html'))
+const send = require('koa-send')
 
 const port = process.env.PORT || 3000;
 
@@ -25,6 +25,11 @@ const port = process.env.PORT || 3000;
 
     // router
     router(koa, io)
+
+    // FIXME: hot fix for handling all request to index.html
+    koa.use(async (ctx) => {
+        await send(ctx, './public/index.html')
+    })
 
     server.listen(port)
 })()
