@@ -8,6 +8,13 @@ const cubicConfig = require('@/database/game-cubic')
 const cubic = new CubicEntity(cubicConfig)
 
 class GameService {
+  static needsToWin = {
+    '0': 10,
+    '1': 5,
+    '2': 2,
+    '3': 2,
+    '4': 1
+  }
   #players = []
   #id = null
   #turn = 0
@@ -71,7 +78,7 @@ class GameService {
     const player = this.getPlayer(id)
 
     if (!player) {
-      const player = new PlayerEntity(id, name, animals, defenders)
+      const player = new PlayerEntity({ id, name, animals, defenders, needsToWin: GameService.needsToWin })
       // HARD CODE
       player.breedAnimals(0, 1) // set one duck on init
       this.#players.push(player)

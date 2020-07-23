@@ -1,22 +1,18 @@
 const FARM = [ 0, 1, 2, 3, 4, 5, 6, 9 ] // HARD CODE ids
-const toWin = {
-  '0': 10,
-  '1': 5,
-  '2': 2,
-  '3': 2,
-  '4': 1
-}
+
 
 class PlayerEntity {
   #id = null
   #name = ''
   #farm = {}
+  #needsToWin = {}
 
   exchangeOnce = 0
 
-  constructor (id, name, animals, defenders) {
+  constructor ({ id, name, animals, defenders, needsToWin }) {
     this.#id = id
     this.#name = name || 'No name'
+    this.#needsToWin = needsToWin
 
     this._createFarm(animals)
     this._defineGetterForDogs(defenders)
@@ -35,7 +31,7 @@ class PlayerEntity {
   }
 
   get isWinner () {
-    return Object.entries(toWin).every(([ id, count ]) => this.farm[ id ] >= count)
+    return Object.entries(this.#needsToWin).every(([ id, count ]) => this.farm[ id ] >= count)
   }
 
   _createFarm (animals) {
