@@ -16,7 +16,7 @@ class QuizBonus extends Component {
         answers: {},
         message: null,
         bonusAnimals: null,
-        time: 45
+        time: 75
     }
 
     get gameId() {
