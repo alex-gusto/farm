@@ -11,7 +11,7 @@ class QuizController extends AbstractController {
         const userId = ctx.cookies.get('user_id')
 
         const user = game.getPlayer(userId)
-        user.isAnimalEnough(0, 1)
+        user.isAnimalEnough(0, 2)
 
         ctx.body = quiz.getQuiz()
     }
