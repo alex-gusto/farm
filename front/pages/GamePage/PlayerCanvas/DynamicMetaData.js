@@ -30,7 +30,8 @@ export default function DynamicMetaData () {
     const tl = gsap.timeline({ repeat: -1, repeatDelay: 0.2, yoyo: true, defaults: { ease: 'steps(1)' } })
     const howl = new Howl({
       src: [ '/audio/your-turn.mp3' ],
-      autoplay: true
+      autoplay: true,
+      volume: 0
     })
 
     createFrames().then((imgs) => {

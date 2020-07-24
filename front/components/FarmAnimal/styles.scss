@@ -58,4 +58,45 @@
     width: 55%;
     transform: translate(-53%, -55%);
   }
+
+  &-exchanger {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    z-index: 1;
+    display: flex;
+    justify-content: flex-end;
+
+    &__animal {
+      position: relative;
+      flex: 1 0 20%;
+      max-width: 20%;
+
+      &::after {
+        position: absolute;
+        left: 50%;
+        bottom: calc(100% + 2px);
+        font-size: 14px;
+        background: white;
+        border-radius: 50%;
+        width: 25px;
+        line-height: 25px;
+        display: inline-block;
+        text-align: center;
+        content: attr(data-coef);
+        transform: translate(-50%, 100%);
+        transition: 0.35s;
+        opacity: 0;
+      }
+
+      &:hover::after {
+        opacity: 1;
+        transform: translate(-50%, 0);
+      }
+
+      img {
+        width: 100%;
+      }
+    }
+  }
 }

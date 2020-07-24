@@ -33,7 +33,12 @@ class PlayerCanvas extends Component {
       to: undefined,
       count: ''
     },
-    isLoading: false
+    isLoading: false,
+    market: {}
+  }
+
+  componentDidMount () {
+    this.getMarket()
   }
 
   get gameId () {
@@ -76,7 +81,7 @@ class PlayerCanvas extends Component {
 
   render () {
     const { farm, turn, name } = this.props
-    const { isDiceOpen, formData, isQuizOpen, quizUsed, isLoading } = this.state
+    const { isDiceOpen, formData, isQuizOpen, quizUsed, isLoading, market } = this.state
 
     return (
       <div className="player-canvas" style={{ pointerEvents: turn ? 'auto' : 'none' }}>
@@ -135,7 +140,7 @@ class PlayerCanvas extends Component {
 
         <div className="d-flex">
           <div className="col pr-5">
-            <FarmGrid farm={farm} onSelect={this.selectAnimal}/>
+            <FarmGrid farm={farm} market={market} onSelect={this.selectAnimal}/>
           </div>
 
           <div className="col-auto">
