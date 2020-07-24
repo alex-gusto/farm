@@ -88,5 +88,19 @@
         "coef": "1"
       }
     ]
+  },
+  {
+    "id": 7,
+    "animalId": 9,
+    "exchangeList": [
+      {
+        "id": 6,
+        "coef": "1"
+      },
+      {
+        "id": 5,
+        "coef": "1"
+      }
+    ]
   }
 ]
