@@ -5,19 +5,11 @@
     "probability": [
       {
         "id": 1,
-        "times": 4
+        "times": 3
       },
       {
         "id": 2,
-        "times": 3
-      },
-      {
-        "id": 3,
-        "times": 3
-      },
-      {
-        "id": 4,
-        "times": 1
+        "times": 2
       },
       {
         "id": 9,
