@@ -93,9 +93,13 @@ class GameController extends AbstractController {
 
   getPlayers = (ctx) => {
     const { gameId } = ctx.params
+    const userId = ctx.cookies.get('user_id')
     const game = GameRepository.getGame(gameId)
+    game.addPlayer(userId)
 
-    ctx.body = { players: game.getPlayers }
+    const players = game.getPlayers
+    ctx.body = { players }
+    ctx.io.in(gameId).emit('games:update', { players })
   }
 }
 

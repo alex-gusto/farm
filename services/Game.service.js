@@ -57,14 +57,7 @@ class GameService {
   }
 
   get getPlayer () {
-    return (id) => {
-      const player = this.#players.find(player => player.id === id)
-
-      // TODO: check exception
-      // if (!player) throw new Error('No player found!')
-
-      return player
-    }
+    return (id) => this.#players.find(player => player.id === id)
   }
 
   get getMarket () {
