@@ -47,6 +47,20 @@ export default (superclass) => class extends superclass {
     }
   }
 
+  getMarket = async () => {
+    try {
+      const { data } = await api.get(`/market/${this.gameId}`)
+      const market = data.reduce((acc, { exchangeList, animalId }) => {
+        acc[ animalId ] = exchangeList
+        return acc
+      }, {})
+
+      this.setState({ market })
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
   resetChosenAnimals = () => {
     this.updateFormData('to')
     this.updateFormData('from')
