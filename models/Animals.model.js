@@ -27,7 +27,7 @@ class AnimalsModel {
 
     getAnimalsByIds(ids) {
         return ids.reduce((acc, id) => {
-            const animal = this.#animals.find(a => a.id === id)
+            const animal = this.#animals.find(a => a.id === +id)
             acc.push(animal)
             return acc
         }, [])

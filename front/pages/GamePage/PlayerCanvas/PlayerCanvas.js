@@ -24,6 +24,7 @@ import compose from 'lodash/fp/compose'
 
 class PlayerCanvas extends Component {
   static contextType = NotificationContext
+
   state = {
     isDiceOpen: false,
     isQuizOpen: false,

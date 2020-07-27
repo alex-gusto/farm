@@ -7,6 +7,59 @@ const cubicConfig = require('@/database/game-cubic')
 
 const cubic = new CubicEntity(cubicConfig)
 
+class PlayerQueue {
+  #queue = []
+  #players = {}
+  #current = 0
+
+  get currentPlayerId () {
+    return this.#queue[ this.#current ]
+  }
+
+  get players () {
+    return Object.values(this.#players)
+  }
+
+  getPlayer (id) {
+    return this.#players[ id ]
+  }
+
+  addPlayer (id, player) {
+    this.#players[ id ] = player
+    this.#queue.push(id)
+  }
+
+  deletePlayer (id) {
+    delete this.#players[ id ]
+
+    const index = this.#queue.findIndex(_id => _id === id)
+    if (index > -1) {
+      this.#queue.splice(index, 1)
+
+      if (index === this.#current) {
+        this.nextPlayer()
+      }
+    }
+  }
+
+  nextPlayer () {
+    let index = this.#current
+    index++
+
+    if (index >= this.#queue.length) {
+      index = 0
+    }
+
+    this.#current = index
+  }
+
+  checkPlayerTurn (id) {
+    if (id !== this.currentPlayerId) {
+      throw new Error('Not your turn!')
+    }
+  }
+}
+
 class GameService {
   static needsToWin = {
     '0': 10,
@@ -15,15 +68,16 @@ class GameService {
     '3': 2,
     '4': 1
   }
-  #players = []
+
   #id = null
-  #turn = 0
   #market = null
+  #playersQueue = null
 
   constructor (id = uuid()) {
     this.#id = id
     this.animalsModel = new AnimalsModel()
     this.#market = new MarketEntity(5, this.animalsModel.getDogs)
+    this.#playersQueue = new PlayerQueue()
   }
 
   get id () {
@@ -31,37 +85,31 @@ class GameService {
   }
 
   get getPlayers () {
-    return this.#players.map((player, i) => {
-      const animals = this.animalsModel.getAnimals
-      const farm = animals.reduce((acc, animal) => {
-        const { id } = animal
-
-        if (id in player.farm) {
-          acc.push({
-            total: player.farm[ id ],
-            ...animal
-          })
+    return this.#playersQueue.players.map((player) => {
+      const animals = this.animalsModel.getAnimalsByIds(Object.keys(player.farm))
+      const farm = animals.map(animal => {
+        return {
+          total: player.farm[ animal.id ],
+          ...animal
         }
-
-        return acc
-      }, [])
+      })
 
       return {
         id: player.id,
         name: player.name,
         farm,
         isWinner: player.isWinner,
-        turn: i === this.#turn
+        turn: player.id === this.#playersQueue.currentPlayerId
       }
     })
   }
 
-  get getPlayer () {
-    return (id) => this.#players.find(player => player.id === id)
-  }
-
   get getMarket () {
     return this.#market.marketList
+  }
+
+  getPlayer (id) {
+    return this.#playersQueue.getPlayer(id)
   }
 
   addPlayer (id = uuid(), name) {
@@ -74,32 +122,22 @@ class GameService {
       const player = new PlayerEntity({ id, name, animals, defenders, needsToWin: GameService.needsToWin })
       // HARD CODE
       player.breedAnimals(0, 1) // set one duck on init
-      this.#players.push(player)
+      this.#playersQueue.addPlayer(id, player)
     }
 
     return id
   }
 
   removePlayer (id) {
-    const index = this.#players.findIndex(player => player.id === id)
-
-    if (index > -1) {
-      this.#players.splice(index, 1)
-    }
+    this.#playersQueue.deletePlayer(id)
   }
 
   nextTurn () {
-    let turn = this.#turn
-    turn++
-
-    if (turn >= this.#players.length) {
-      turn = 0
-    }
-
-    this.#turn = turn
+    this.#playersQueue.nextPlayer()
   }
 
   makeMove (userId) {
+    this.#playersQueue.checkPlayerTurn(userId)
     const player = this.getPlayer(userId)
 
     const diceAnimals = cubic.throwDice()
@@ -176,6 +214,7 @@ class GameService {
   }
 
   exchangeAnimals (userId, from, fromCount, to) {
+    this.#playersQueue.checkPlayerTurn(userId)
     const player = this.getPlayer(userId)
     player.isWinner
 
