@@ -31,6 +31,22 @@
     }
   },
   {
+    "id": 1,
+    "name": "Russian - English",
+    "list": {
+      "бегать": "run",
+      "богатый": "rich",
+      "бедный": "poor",
+      "высокий": "tall;high",
+      "голодный": "hungry",
+      "актер": "actor",
+      "зеленый": "green",
+      "злой": "angry",
+      "всегда": "always",
+      "пустой": "empty"
+    }
+  },
+  {
     "id": 2,
     "name": "Math division",
     "list": {
@@ -101,7 +117,7 @@
       "тетя": "zia",
       "дядя": "zio",
       "сестра": "sorella",
-      "озеро":"lago"
+      "озеро": "lago"
     }
   },
   {
