@@ -1,5 +1,4 @@
 import React, { useRef, useEffect } from 'react'
-import gsap from 'gsap'
 import { Howl } from 'howler'
 
 export default function DynamicMetaData () {
@@ -24,28 +23,29 @@ export default function DynamicMetaData () {
   }
 
   useEffect(() => {
-    const frames = { number: 0 }
     const canvasEl = canvasRef.current
     const ctx = canvasEl.getContext('2d')
-    const tl = gsap.timeline({ repeat: -1, repeatDelay: 0.2, yoyo: true, defaults: { ease: 'steps(1)' } })
     const howl = new Howl({
       src: [ '/audio/your-turn.mp3' ],
       autoplay: true,
       volume: 0
     })
 
+    let id = 0
+    let prevTitle = document.title
     createFrames().then((imgs) => {
-      tl.to(frames, {
-        number: imgs.length - 1,
-        onUpdate () {
-          updateFavicon(imgs[ frames.number ], canvasEl, ctx)
-        }
-      })
+      let i = 1
+      id = setInterval(() => {
+        i = 1 - i
+        updateFavicon(imgs[ i ], canvasEl, ctx)
+        document.title = i ? 'Your turn' : prevTitle
+      }, 500)
     })
 
     return () => {
-      tl.kill()
       howl.unload()
+      clearInterval(id)
+      document.title = prevTitle
       loadImage('/img/lamp-3.svg').then((img) => updateFavicon(img, canvasEl, ctx))
     }
   }, [])
