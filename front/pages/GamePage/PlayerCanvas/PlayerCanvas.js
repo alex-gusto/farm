@@ -85,7 +85,7 @@ class PlayerCanvas extends Component {
     const { isDiceOpen, formData, isQuizOpen, quizUsed, isLoading, market } = this.state
 
     return (
-      <div className="player-canvas" style={{ pointerEvents: turn ? 'auto' : 'none' }}>
+      <div className="player-canvas">
 
         {turn && <DynamicMetaData/>}
 
