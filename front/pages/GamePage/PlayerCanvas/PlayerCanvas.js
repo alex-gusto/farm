@@ -97,16 +97,22 @@ class PlayerCanvas extends Component {
             </div>
 
             <div className="col-auto">
-              <BaseButton theme="secondary" color="blue" disabled={!turn || isLoading}
-                          loading={isLoading}
-                          onClick={this.openDice}>
+              <BaseButton
+                color="blue"
+                disabled={!turn || isLoading}
+                loading={isLoading}
+                onClick={this.openDice}
+              >
                 Throw Dice
               </BaseButton>
             </div>
 
             <div className="col-auto">
-              <BaseButton theme="secondary" color="orange" disabled={!turn || quizUsed}
-                          onClick={this.openQuizBonus}>Get Bonus
+              <BaseButton
+                color="orange"
+                disabled={!turn || quizUsed}
+                onClick={this.openQuizBonus}
+              >Get Bonus
               </BaseButton>
             </div>
           </div>
@@ -146,8 +152,13 @@ class PlayerCanvas extends Component {
 
           <div className="col-auto">
             <div className="exchanger">
-              <BaseIconButton onClick={this.resetChosenAnimals}
-                              className="exchanger__cancel">x</BaseIconButton>
+              <BaseIconButton
+                onClick={this.resetChosenAnimals}
+                className="exchanger__cancel"
+                name="cross"
+                size="small"
+                color="blue"
+              />
 
               <h3 className="exchanger__title">
                 Exchanger

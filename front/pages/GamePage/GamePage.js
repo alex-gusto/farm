@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import api from '~/front/api'
 import { withRouter } from 'react-router-dom'
 import io from '~/front/api/ws'
+import TheMenu from './TheMenu'
 import PlayerList from './PlayerList'
 import PlayerCanvas from '~/front/pages/GamePage/PlayerCanvas'
 import AudioPlayer from '~/front/components/AudioPlayer'
@@ -71,9 +72,9 @@ class GamePage extends Component {
 
         <section className="game-page__inner">
           <PlayerCanvas {...me}/>
-          {/*<AnimalsMarket/>*/}
         </section>
 
+        <TheMenu/>
         {
           me.isWinner && (
             <OverLayer>

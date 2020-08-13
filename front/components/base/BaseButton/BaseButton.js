@@ -1,26 +1,19 @@
 import React from 'react'
-import classnames from 'classnames'
 import BaseSpinner from 'base/BaseSpinner'
+import createButton from '~/front/components/base/HOC/create-button'
 
-export default function BaseButton(props) {
-    const { onClick, label, type = 'button', theme = 'main', color, disabled = false, loading = false } = props
+function BaseButton (props) {
+  const { onClick, label, type, disabled, loading, className, title } = props
 
-    const rootClasses = classnames([
-        'base-button',
-        `base-button--${theme}`,
-        color && `base-button--${color}`,
-        {
-            'base-button--disabled': disabled
-        }
-    ])
-
-    return (
-        <button disabled={disabled} type={type} onClick={onClick} className={rootClasses}>
+  return (
+    <button disabled={disabled} type={type} onClick={onClick} title={title} className={className}>
             <span className="base-button__inner">
                 {
-                    loading ? <BaseSpinner/> : (label || props.children)
+                  loading ? <BaseSpinner/> : (label || props.children)
                 }
             </span>
-        </button>
-    )
+    </button>
+  )
 }
+
+export default createButton(BaseButton, 'base-button')

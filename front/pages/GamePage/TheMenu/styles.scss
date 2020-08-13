@@ -1,0 +1,33 @@
+.menu {
+  position: fixed;
+  bottom: 15px;
+  right: 15px;
+}
+
+.menu-list {
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+
+  &--opened {
+    .menu-list__button {
+      animation: menu-appear 0.2s ease-out forwards;
+    }
+  }
+
+  &__button {
+    transform: scale(0);
+
+    @for $i from 1 through 5 {
+      &:nth-last-child(#{$i}) {
+        animation-delay: #{$i * 0.1}s;
+      }
+    }
+  }
+}
+
+@keyframes menu-appear {
+  100% {
+    transform: scale(1);
+  }
+}

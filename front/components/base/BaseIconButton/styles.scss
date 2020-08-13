@@ -6,22 +6,47 @@ $f-base: 'Balsamiq Sans', cursive;
   position: relative;
   display: inline-block;
   box-shadow: none;
-  width: 30px;
-  height: 25px;
   border: none;
   padding: 0;
   cursor: pointer;
   outline: none;
   font-size: 16px;
   color: $c-blue-300;
-  background: url("/img/button-icon.png") center/contain no-repeat;
+
+  &::after {
+    content: '';
+    padding-top: (25/30 * 100%);
+    display: block;
+  }
+
+  &--small {
+    min-width: 30px;
+  }
+
+  &--medium {
+    min-width: 70px;
+  }
+
+  &--orange {
+    color: $c-orange;
+    background: url("/img/buttons/orange-icon-button.png") center/contain no-repeat;
+  }
+
+  &--blue {
+    color: $c-blue-300;
+    background: url("/img/buttons/blue-icon-button.png") center/contain no-repeat;
+  }
 
   &__inner {
     display: block;
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    width: 50%;
+    height: 50%;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
     color: inherit;
     font-family: $f-base;
     text-transform: uppercase;

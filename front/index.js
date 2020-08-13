@@ -1,3 +1,4 @@
+import './helpers/sprite-loader'
 import ReactDOM from 'react-dom'
 import React from 'react'
 import App from './App'

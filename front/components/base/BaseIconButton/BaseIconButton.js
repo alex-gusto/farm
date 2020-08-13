@@ -1,24 +1,16 @@
 import React from 'react'
-import classnames from 'classnames'
+import createButton from '~/front/components/base/HOC/create-button'
 
-export default function BaseButton (props) {
-  const { onClick, label, type = 'button', disabled = false, className } = props
-
-  const rootClasses = classnames([
-    'base-icon-button',
-    className,
-    {
-      'base-icon-button--disabled': disabled
-    }
-  ])
+function BaseIconButton (props) {
+  const { onClick, name, type, disabled = false, className, title } = props
 
   return (
-    <button disabled={disabled} type={type} onClick={onClick} className={rootClasses}>
-            <span className="base-icon-button__inner">
-                {
-                  label || props.children
-                }
-            </span>
+    <button disabled={disabled} type={type} onClick={onClick} title={title} className={className}>
+      <svg className="base-icon-button__inner">
+        <use xlinkHref={`#icon-${name}`}/>
+      </svg>
     </button>
   )
 }
+
+export default createButton(BaseIconButton, 'base-icon-button')

@@ -11,32 +11,38 @@ $f-base: 'Balsamiq Sans', cursive;
   cursor: pointer;
   outline: none;
 
+  &::after {
+    display: block;
+    content: '';
+    padding-top: (172/288 * 100%);
+  }
+
   .base-spinner {
     font-size: 0.25em;
   }
 
-  &--main {
-    width: 200px;
-    height: 97px;
-    color: $c-orange;
-    background: url("/img/main-button.png") center/contain no-repeat;
+  &[disabled] {
+    filter: grayscale(40%);
+  }
+
+  &--large {
+    min-width: 170px;
     font-size: 18px;
   }
 
-  &--secondary {
-    width: 100px;
-    height: 60px;
+  &--medium {
+    min-width: 100px;
     font-size: 13px;
   }
 
   &--orange {
     color: $c-orange;
-    background: url("/img/orange-button.png") center/contain no-repeat;
+    background: url("/img/buttons/orange-button.png") center/contain no-repeat;
   }
 
   &--blue {
     color: $c-blue-300;
-    background: url("/img/blue-button.png") center/contain no-repeat;
+    background: url("/img/buttons/blue-button.png") center/contain no-repeat;
   }
 
   &__inner {

@@ -82,7 +82,7 @@ class HomePage extends Component {
             onChange={this.changeGameId}
           />
 
-          <BaseButton type="submit">
+          <BaseButton type="submit" color="orange" size="large">
             {
               gameId ? 'Join game' : 'New game'
             }
