@@ -40,13 +40,9 @@ $f-base: 'Balsamiq Sans', cursive;
   &__inner {
     display: block;
     position: absolute;
-    width: 50%;
-    height: 50%;
-    margin: auto;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    left: 0;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
     color: inherit;
     font-family: $f-base;
     text-transform: uppercase;
