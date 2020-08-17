@@ -1,10 +1,10 @@
-const { v4: uuid } = require('uuid')
 const PlayerEntity = require('../entities/Player.entity')
 const PlayerQueue = require('../utils/PlayerQueue')
 const AnimalsModel = require('@/models/Animals.model')
 const MarketEntity = require('@/entities/Market.entity')
 const CubicEntity = require('@/entities/Cubic.entity')
 const cubicConfig = require('@/database/game-cubic')
+const uniqueID = require('@/utils/unique-id')
 
 const cubic = new CubicEntity(cubicConfig)
 
@@ -21,7 +21,7 @@ class GameService {
   #market = null
   #playersQueue = null
 
-  constructor (id = uuid()) {
+  constructor (id = uniqueID()) {
     this.#id = id
     this.animalsModel = new AnimalsModel()
     this.#market = new MarketEntity(5, this.animalsModel.getDogs)
@@ -60,20 +60,20 @@ class GameService {
     return this.#playersQueue.getPlayer(id)
   }
 
-  addPlayer (id = uuid(), name) {
-    console.log('user ', id)
+  addPlayer (id, name) {
+    console.log('add player', { id, name })
     const defenders = this.animalsModel.getDogs
     const animals = this.animalsModel.getAnimals
-    const player = this.getPlayer(id)
+    let player = this.getPlayer(id)
 
     if (!player) {
-      const player = new PlayerEntity({ id, name, animals, defenders, needsToWin: GameService.needsToWin })
+      player = new PlayerEntity({ id, name, animals, defenders, needsToWin: GameService.needsToWin })
       // HARD CODE
       player.breedAnimals(0, 1) // set one duck on init
-      this.#playersQueue.addPlayer(id, player)
+      this.#playersQueue.addPlayer(player.id, player)
     }
 
-    return id
+    return player.id
   }
 
   removePlayer (id) {

@@ -6,9 +6,8 @@ const quiz = new QuizService()
 
 class QuizController extends AbstractController {
     get = async (ctx) => {
-        const { gameId } = ctx.params
+        const { gameId, userId } = ctx.params
         const game = GameRepository.getGame(gameId)
-        const userId = ctx.cookies.get('user_id')
 
         const user = game.getPlayer(userId)
         user.isAnimalEnough(0, 1)
@@ -17,8 +16,7 @@ class QuizController extends AbstractController {
     }
 
     check = async (ctx) => {
-        const { gameId } = ctx.params
-        const userId = ctx.cookies.get('user_id')
+        const { gameId, userId } = ctx.params
         const game = GameRepository.getGame(gameId)
         quiz.setPlayer(game.getPlayer(userId))
 

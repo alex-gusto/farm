@@ -6,167 +6,172 @@ import BaseButton from 'base/BaseButton'
 import FarmAnimal from '~/front/components/FarmAnimal'
 
 class QuizBonus extends Component {
-    static contextType = NotificationContext
-    #timer = null
+  static contextType = NotificationContext
+  #timer = null
 
-    state = {
-        quiz: {
-            list: []
-        },
-        answers: {},
-        message: null,
-        bonusAnimals: null,
-        time: 120,
-        isLoading: false
-    }
+  state = {
+    quiz: {
+      list: []
+    },
+    answers: {},
+    message: null,
+    bonusAnimals: null,
+    time: 120,
+    isLoading: false
+  }
 
-    get gameId() {
-        const { match: { params: { gameId } } } = this.props
-        return gameId
-    }
+  get gameId () {
+    const { match: { params: { gameId } } } = this.props
+    return gameId
+  }
 
-    componentDidMount() {
-        this.getQuiz().then(data => {
-            const answers = data.list.reduce((acc, key) => {
-                acc[key] = ''
-                return acc
-            }, {})
+  get userId () {
+    const { match: { params: { userId } } } = this.props
+    return userId
+  }
 
-            this.setState({
-                quiz: data,
-                answers
-            })
+  componentDidMount () {
+    this.getQuiz().then(data => {
+      const answers = data.list.reduce((acc, key) => {
+        acc[ key ] = ''
+        return acc
+      }, {})
 
-            this.runTimer()
-        }).catch(({ response }) => {
-            this.setState({
-                message: response.data
-            })
-        })
-    }
+      this.setState({
+        quiz: data,
+        answers
+      })
 
-    async getQuiz() {
-        return (await api.get(`/quiz/${this.gameId}`)).data
-    }
+      this.runTimer()
+    }).catch(({ response }) => {
+      this.setState({
+        message: response.data
+      })
+    })
+  }
 
-    runTimer() {
-        this.#timer = setInterval(() => {
-            this.setState(({ time }) => {
-                const newTime = time - 1
+  async getQuiz () {
+    return (await api.get(`/quiz/${this.gameId}/${this.userId}`)).data
+  }
 
-                if (newTime <= 0) {
-                    this.checkQuiz()
-                }
+  runTimer () {
+    this.#timer = setInterval(() => {
+      this.setState(({ time }) => {
+        const newTime = time - 1
 
-                return {
-                    time: newTime
-                }
-            })
-        }, 1000)
-    }
-
-    destroyTimer() {
-        clearInterval(this.#timer)
-    }
-
-    changeAnswer(question, value) {
-        this.setState(({ answers }) => {
-            answers[question] = value
-
-            return {
-                answers: answers
-            }
-        })
-    }
-
-    checkQuiz = async (e) => {
-        this.destroyTimer()
-        if (e) e.preventDefault()
-
-        const { answers, quiz: { id } } = this.state
-        this.setState({ isLoading: true })
-        try {
-            const { data } = await api.post(`/quiz/${this.gameId}`, { answers, id })
-            this.setBonusAnimal(data)
-        } catch ({ response }) {
-            this.setState({
-                message: response.data
-            })
-        } finally {
-            setTimeout(this.props.onClose, 1500)
-        }
-    }
-
-    setBonusAnimal(animals) {
-        this.setState({
-            bonusAnimals: animals
-        })
-    }
-
-    render() {
-        const { quiz: { name, list }, message, bonusAnimals, time, isLoading } = this.state
-
-        const content = () => {
-            if (message) {
-                return (
-                    <div className="quiz-bonus-fail">
-                        <h3 className="quiz-bonus-title mb-3">{message}</h3>
-                        <BaseButton theme="secondary" color="orange" onClick={this.props.onClose}>OK</BaseButton>
-                    </div>
-                )
-            }
-
-            if (bonusAnimals) {
-                return (
-                    <div>
-                        <h2 className="quiz-bonus-title">{`You've got ${bonusAnimals.map(animal => animal.name).join(', ')}!`}</h2>
-                        {bonusAnimals.map((animal, key) => <FarmAnimal isNameHidden={true}
-                                                                       className="quiz-bonus-animal"
-                                                                       key={key} {...animal} />)}
-                    </div>
-                )
-            }
-
-            return (
-                <form className="quiz-bonus-form" onSubmit={this.checkQuiz}>
-                    <h2 className="quiz-bonus-title">{name} <span className="quiz-bonus-time">Time: <br/> {time}</span>
-                    </h2>
-                    <ul className="list-group mb-3">
-                        {
-                            list.map((question, key) => (
-                                <li key={key} className="list-group-item" aria-disabled="true">
-                                    <div className="row align-items-center">
-                                        <div className="col">
-                                            {question}
-                                        </div>
-                                        <div className="col-auto">
-                                            <input type="text" className="form-control"
-                                                   value={this.state.answers[question]}
-                                                   onChange={({ target: { value } }) => this.changeAnswer(question, value)}/>
-                                        </div>
-                                    </div>
-                                </li>
-                            ))
-                        }
-                    </ul>
-
-                    <div className="text-center">
-                        <BaseButton theme="secondary" color="orange" type="submit" disabled={isLoading}
-                                    loading={isLoading}>Check</BaseButton>
-                    </div>
-                </form>
-            )
+        if (newTime <= 0) {
+          this.checkQuiz()
         }
 
+        return {
+          time: newTime
+        }
+      })
+    }, 1000)
+  }
+
+  destroyTimer () {
+    clearInterval(this.#timer)
+  }
+
+  changeAnswer (question, value) {
+    this.setState(({ answers }) => {
+      answers[ question ] = value
+
+      return {
+        answers: answers
+      }
+    })
+  }
+
+  checkQuiz = async (e) => {
+    this.destroyTimer()
+    if (e) e.preventDefault()
+
+    const { answers, quiz: { id } } = this.state
+    this.setState({ isLoading: true })
+    try {
+      const { data } = await api.post(`/quiz/${this.gameId}/${this.userId}`, { answers, id })
+      this.setBonusAnimal(data)
+    } catch ({ response }) {
+      this.setState({
+        message: response.data
+      })
+    } finally {
+      setTimeout(this.props.onClose, 1500)
+    }
+  }
+
+  setBonusAnimal (animals) {
+    this.setState({
+      bonusAnimals: animals
+    })
+  }
+
+  render () {
+    const { quiz: { name, list }, message, bonusAnimals, time, isLoading } = this.state
+
+    const content = () => {
+      if (message) {
         return (
-            <div className="quiz-bonus">
-                {
-                    content()
-                }
-
-            </div>
+          <div className="quiz-bonus-fail">
+            <h3 className="quiz-bonus-title mb-3">{message}</h3>
+            <BaseButton theme="secondary" color="orange" onClick={this.props.onClose}>OK</BaseButton>
+          </div>
         )
+      }
+
+      if (bonusAnimals) {
+        return (
+          <div>
+            <h2 className="quiz-bonus-title">{`You've got ${bonusAnimals.map(animal => animal.name).join(', ')}!`}</h2>
+            {bonusAnimals.map((animal, key) => <FarmAnimal isNameHidden={true}
+                                                           className="quiz-bonus-animal"
+                                                           key={key} {...animal} />)}
+          </div>
+        )
+      }
+
+      return (
+        <form className="quiz-bonus-form" onSubmit={this.checkQuiz}>
+          <h2 className="quiz-bonus-title">{name} <span className="quiz-bonus-time">Time: <br/> {time}</span>
+          </h2>
+          <ul className="list-group mb-3">
+            {
+              list.map((question, key) => (
+                <li key={key} className="list-group-item" aria-disabled="true">
+                  <div className="row align-items-center">
+                    <div className="col">
+                      {question}
+                    </div>
+                    <div className="col-auto">
+                      <input type="text" className="form-control"
+                             value={this.state.answers[ question ]}
+                             onChange={({ target: { value } }) => this.changeAnswer(question, value)}/>
+                    </div>
+                  </div>
+                </li>
+              ))
+            }
+          </ul>
+
+          <div className="text-center">
+            <BaseButton theme="secondary" color="orange" type="submit" disabled={isLoading}
+                        loading={isLoading}>Check</BaseButton>
+          </div>
+        </form>
+      )
     }
+
+    return (
+      <div className="quiz-bonus">
+        {
+          content()
+        }
+
+      </div>
+    )
+  }
 }
 
 export default withRouter(QuizBonus)

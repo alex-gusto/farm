@@ -1,9 +1,22 @@
 import io from 'socket.io-client'
 
-const socket = io(process.env.SOCKET_URL || 'http://localhost:3000');
+let socket = null
 
-socket.on('_error', (v) => {
-    console.error(v)
-})
+export const disconnect = () => {
+  socket.disconnect()
+  socket = null
+}
 
-export default (() => socket)()
+export default (query) => {
+  if (socket) return socket
+
+  socket = io(process.env.SOCKET_URL || 'http://localhost:3000', {
+    query
+  })
+
+  socket.on('_error', (v) => {
+    console.error('socket error', v)
+  })
+
+  return socket
+}

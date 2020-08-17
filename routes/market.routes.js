@@ -6,7 +6,7 @@ const router = new Router()
 
 router.get('/:gameId', ctrl.get)
 
-router.post('/:gameId', ctrl.exchange)
+router.post('/:gameId/:userId', ctrl.exchange)
 
 // router.put('/:id/make-move', ctrl.makeMove)
 

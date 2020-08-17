@@ -38,7 +38,8 @@ export default (superclass) => class extends superclass {
     }, {})
 
     try {
-      await api.post(`/market/${this.gameId}`, body)
+      await api.post(`/market/${this.gameId}/${this.userId}`, body)
+      this.resetChosenAnimals()
     } catch ({ response }) {
       this.context.show({
         content: response.data,

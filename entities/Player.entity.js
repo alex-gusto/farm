@@ -1,5 +1,6 @@
-const FARM = [ 0, 1, 2, 3, 4, 5, 6, 9 ] // HARD CODE ids
+const uniqueID = require('@/utils/unique-id')
 
+const FARM = [ 0, 1, 2, 3, 4, 5, 6, 9 ] // HARD CODE ids
 
 class PlayerEntity {
   #id = null
@@ -10,7 +11,7 @@ class PlayerEntity {
   exchangeOnce = 0
 
   constructor ({ id, name, animals, defenders, needsToWin }) {
-    this.#id = id
+    this.#id = id || PlayerEntity.generateId(name)
     this.#name = name || 'No name'
     this.#needsToWin = needsToWin
 
@@ -34,12 +35,20 @@ class PlayerEntity {
     return Object.entries(this.#needsToWin).every(([ id, count ]) => this.farm[ id ] >= count)
   }
 
+  static generateId (name) {
+    if (name) {
+      return name.toLocaleLowerCase().replace(/\s+/gi, '-')
+    }
+
+    return uniqueID()
+  }
+
   _createFarm (animals) {
     this.#farm = animals.reduce((acc, animal) => {
       // TODO: make it dynamic
       if (!FARM.includes(animal.id)) return acc
 
-      acc[ animal.id ] = 0
+      acc[ animal.id ] = 2
       return acc
     }, {})
   }

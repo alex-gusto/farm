@@ -7,7 +7,7 @@ import gsap from 'gsap'
 //
 // gsap.registerPlugin(GSDevTools)
 
-export default function DiceRoll ({ gameId, onClose }) {
+export default function DiceRoll ({ gameId, userId, onClose }) {
   const [ result, changeResult ] = useState([])
   const rocketEl = useRef(null)
 
@@ -49,7 +49,7 @@ export default function DiceRoll ({ gameId, onClose }) {
   useEffect(() => {
     (async () => {
       try {
-        const { data } = await api.put(`/games/${gameId}/make-move`)
+        const { data } = await api.put(`/games/${gameId}/${userId}/make-move`)
         changeResult(data.diceAnimals)
       } catch ({ response }) {
         this.context.show({
