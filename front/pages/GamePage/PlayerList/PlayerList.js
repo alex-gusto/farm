@@ -20,7 +20,6 @@ class PlayerList extends Component {
 
     return (
       <Fragment>
-        <h3 className="text-white">Players</h3>
         <ul className="player-list">
           {body}
         </ul>

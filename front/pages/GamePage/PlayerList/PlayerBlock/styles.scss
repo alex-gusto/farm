@@ -18,11 +18,22 @@
     font-size: 20px;
   }
 
+  &__buttons {
+    display: flex;
+    justify-content: flex-end;
+    padding: 2px 10px;
+  }
+
   &__farm {
     position: relative;
     z-index: 2;
     display: flex;
     flex-wrap: wrap;
+  }
+
+  &__body {
+    display: flex;
+    align-items: flex-start;
   }
 
   &__animal {

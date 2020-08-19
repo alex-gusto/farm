@@ -75,11 +75,6 @@ class PlayerCanvas extends Component {
     })
   }
 
-  exitGame = () => {
-    api.delete(`/games/${this.gameId}`)
-    this.props.history.push('/')
-  }
-
   render () {
     const { farm, turn, name } = this.props
     const { isDiceOpen, formData, isQuizOpen, quizUsed, isLoading, market } = this.state
@@ -93,7 +88,6 @@ class PlayerCanvas extends Component {
           <div className="row">
             <div className="col">
               <h2 className="player-name">Your name is {name}</h2>
-              <button onClick={this.exitGame}>Exit game</button>
             </div>
 
             <div className="col-auto">
