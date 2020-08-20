@@ -16,7 +16,7 @@ class QuizBonus extends Component {
         answers: {},
         message: null,
         bonusAnimals: null,
-        time: 120,
+        time: 90,
         isLoading: false
     }
 
