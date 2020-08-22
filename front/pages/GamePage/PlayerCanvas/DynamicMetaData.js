@@ -28,7 +28,7 @@ export default function DynamicMetaData () {
     const howl = new Howl({
       src: [ '/audio/your-turn.mp3' ],
       autoplay: true,
-      volume: 1
+      volume: 0.7
     })
 
     let id = 0
