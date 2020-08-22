@@ -5,6 +5,7 @@ const MarketEntity = require('@/entities/Market.entity')
 const CubicEntity = require('@/entities/Cubic.entity')
 const cubicConfig = require('@/database/game-cubic')
 const uniqueID = require('@/utils/unique-id')
+const { getSocket } = require('@/ws')
 
 const cubic = new CubicEntity(cubicConfig)
 
@@ -108,7 +109,7 @@ class GameService {
     return this.animalsModel.getAnimalsByIds(diceAnimals)
   }
 
-  sendAnimals (userId, toUserId, animalId, count = 1) {
+  sendAnimals ({ gameId, userId, toUserId, animalId, count }) {
     const player = this.getPlayer(userId)
     const playerTo = this.getPlayer(toUserId)
 
@@ -116,7 +117,26 @@ class GameService {
     player.isAnimalEnough(animalId, count)
     player.updateAnimalCount(animalId, -count)
 
-    this.checkPredators(playerTo, animalId)
+    return new Promise(resolve => {
+      const socket = getSocket({ gameId, userId })
+      const socketTo = getSocket({ gameId, userId: toUserId })
+
+      if (socket && socketTo) {
+        socket.to(socketTo.id).emit(
+          'games:attack',
+          {
+            name: player.name,
+            defence () {
+              // this.checkPredators(playerTo, animalId)
+
+            }
+          },
+          () => {
+            resolve()
+          }
+        )
+      }
+    })
   }
 
   // TODO: set active player

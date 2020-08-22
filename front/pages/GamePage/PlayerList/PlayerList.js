@@ -8,12 +8,18 @@ class PlayerList extends Component {
     return gameId
   }
 
+  get userId () {
+    const { match: { params: { userId } } } = this.props
+    return userId
+  }
+
   render () {
     const { players } = this.props
 
     let body
     if (players.length) {
-      body = players.map((player, i) => <li key={i}><PlayerBlock {...player} gameId={this.gameId}/></li>)
+      body = players.map((player, i) => <li key={i}><PlayerBlock {...player} gameId={this.gameId} userId={this.userId}/>
+      </li>)
     } else {
       body = <li>No players</li>
     }

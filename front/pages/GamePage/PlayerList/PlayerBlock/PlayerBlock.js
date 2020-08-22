@@ -7,7 +7,7 @@ import api from '~/front/api'
 import { NotificationContext } from '~/front/providers/NotificationProvider'
 import BaseIconButton from '~/front/components/base/BaseIconButton/BaseIconButton'
 
-export default function ({ farm, name, turn, isWinner, id, gameId }) {
+export default function ({ farm, name, turn, isWinner, id, gameId, userId }) {
   const context = useContext(NotificationContext)
   const rootClasses = classnames([
     'player-block',
@@ -21,6 +21,7 @@ export default function ({ farm, name, turn, isWinner, id, gameId }) {
     try {
       await api.post(`/games/${gameId}/send-animals`, {
         toUserId: id,
+        fromUserId: userId,
         id: 9
       })
     } catch ({ response }) {

@@ -7,13 +7,17 @@ import PlayerList from './PlayerList'
 import PlayerCanvas from '~/front/pages/GamePage/PlayerCanvas'
 // import AudioPlayer from '~/front/components/AudioPlayer'
 import OverLayer from '~/front/components/OverLayer'
+import BaseModal from '~/front/components/base/BaseModal/BaseModal'
+import AttackField from '~/front/components/AttackField'
 
 class GamePage extends Component {
   state = {
     players: [],
     me: {
       farm: []
-    }
+    },
+    attackData: {},
+    isOnAttack: false
   }
 
   get gameId () {
@@ -33,11 +37,25 @@ class GamePage extends Component {
   componentDidMount () {
     this.getPlayers()
     this.socket.on('games:update', this.updatePlayers)
+    this.socket.on('games:attack', this.openAttack)
   }
 
   componentWillUnmount () {
     this.socket.off('games:update', this.updatePlayers)
+    this.socket.off('games:attack', this.openAttack)
     disconnect()
+  }
+
+  openAttack = (data, fn) => {
+    console.log(fn)
+    this.setState({
+      attackData: data,
+      isOnAttack: true
+    })
+  }
+
+  closeAttack = () => {
+    this.setState({ isOnAttack: false })
   }
 
   async getPlayers () {
@@ -45,8 +63,7 @@ class GamePage extends Component {
       const { data } = await api(`/games/${this.gameId}`)
       this.updatePlayers(data)
     } catch (err) {
-      const { history } = this.props
-      history.push('/')
+      this.props.history.push('/')
     }
   }
 
@@ -59,7 +76,7 @@ class GamePage extends Component {
   }
 
   render () {
-    const { me, players } = this.state
+    const { me, players, isOnAttack, attackData } = this.state
 
     return (
       <div className="game-page">
@@ -84,6 +101,10 @@ class GamePage extends Component {
             </OverLayer>
           )
         }
+
+        <BaseModal isOpen={isOnAttack} closeModal={this.closeAttack} hasClose={false}>
+          <AttackField onClose={this.closeAttack} {...attackData} farm={me.farm}/>
+        </BaseModal>
 
         {/*<AudioPlayer/>*/}
 
