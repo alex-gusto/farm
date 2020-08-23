@@ -7,7 +7,7 @@ import api from '~/front/api'
 import { NotificationContext } from '~/front/providers/NotificationProvider'
 import BaseIconButton from '~/front/components/base/BaseIconButton/BaseIconButton'
 
-export default function ({ farm, name, turn, isWinner, id, gameId }) {
+export default function ({ farm, name, turn, isWinner, id, gameId, disabled = false }) {
   const context = useContext(NotificationContext)
   const rootClasses = classnames([
     'player-block',
@@ -44,14 +44,14 @@ export default function ({ farm, name, turn, isWinner, id, gameId }) {
         <div className="player-block__farm">
           {farm.filter(animal => animal.type < 2).map((animal, key) => {
             return (<div className="player-block__animal" key={key}>
-              {animal.name}
+              <img src={animal.image} alt={animal.name}/>
               <span className="player-block__count">{animal.total}</span>
             </div>)
           })}
         </div>
 
         <div className="player-block__buttons">
-          <BaseIconButton onClick={attack} name="arrow" size="small" title="Attack"/>
+          <BaseIconButton onClick={attack} name="arrow" size="small" disabled={disabled} title="Attack"/>
         </div>
       </div>
     </div>

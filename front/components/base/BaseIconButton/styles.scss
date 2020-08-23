@@ -13,6 +13,10 @@ $f-base: 'Balsamiq Sans', cursive;
   font-size: 16px;
   color: $c-blue-300;
 
+  &[disabled] {
+    filter: grayscale(100%);
+  }
+
   &::after {
     content: '';
     padding-top: (25/30 * 100%);

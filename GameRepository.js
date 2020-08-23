@@ -1,4 +1,4 @@
-const CustomException = require('@/utils/CustomException')
+const CustomException = require('@/utils/exceptions/CustomException')
 
 const games = new Map()
 

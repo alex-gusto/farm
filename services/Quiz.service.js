@@ -18,7 +18,7 @@ class QuizService {
 
   getQuiz () {
     const quiz = this.#model.getRandomQuiz()
-    const list = shuffle(Object.keys(quiz.list)).slice(0, 5)
+    const list = shuffle(Object.keys(quiz.list)).slice(0, 4)
 
     return {
       ...quiz,

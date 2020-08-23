@@ -64,7 +64,7 @@ class GamePage extends Component {
     return (
       <div className="game-page">
         <aside className="game-page__sidebar">
-          <PlayerList players={players}/>
+          <PlayerList players={players} turn={me.turn}/>
         </aside>
 
         <section className="game-page__inner">
