@@ -13,7 +13,7 @@ router.get('/:gameId/:userId', ctrl.getPlayer)
 
 router.post('/', ctrl.create)
 
-router.post('/:gameId/send-animals', ctrl.sendAnimals)
+router.post('/:gameId/:userId/send-animals', ctrl.sendAnimals)
 
 router.put('/:gameId/:userId?', ctrl.join)
 
