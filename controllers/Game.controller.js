@@ -1,6 +1,7 @@
 const GameRepository = require('@/GameRepository')
 const GameService = require('@/services/Game.service')
 const AbstractController = require('./Abstract.controller')
+const { getSocket } = require('@/ws')
 
 // test game
 const game = new GameService('1')
@@ -16,69 +17,58 @@ class GameController extends AbstractController {
     const userId = game.addPlayer(undefined, name)
 
     GameRepository.setGame(game.id, game)
-    ctx.cookies.set('user_id', userId, {
-      maxAge: 1000 * 60 * 60 * 24 * 7,
-      httpOnly: false
-    })
+
     ctx.body = {
       gameId: game.id,
       userId
-    }
-    const socket = this.getSocket(ctx)
-    if (socket) {
-      socket.join(game.id, () => console.log('joined room: ', game.id))
     }
   }
 
   join = async (ctx) => {
     const { gameId } = ctx.params
+    let { userId } = ctx.params
     const { name } = ctx.request.body
-    let userId = ctx.cookies.get('user_id')
     const game = GameRepository.getGame(gameId)
     userId = game.addPlayer(userId, name)
 
-    ctx.cookies.set('user_id', userId, {
-      maxAge: 1000 * 60 * 60 * 24 * 7,
-      httpOnly: false
-    })
     ctx.body = { gameId, userId }
-
-    const socket = this.getSocket(ctx)
-    if (socket) {
-      socket.join(game.id, () => console.log('join', userId))
-      socket.in(game.id).emit('games:join', { players: game.getPlayers })
-    }
+    ctx.io.in(gameId).emit('games:update', { players: game.getPlayers })
   }
 
   leave = async (ctx) => {
-    const { gameId } = ctx.params
-    let userId = ctx.cookies.get('user_id')
+    const { gameId, userId } = ctx.params
     const game = GameRepository.getGame(gameId)
 
     game.removePlayer(userId)
+
+    if (!game.getPlayers.length) {
+      GameRepository.deleteGame(gameId)
+    }
 
     ctx.body = 'OK'
     ctx.io.in(gameId).emit('games:update', { players: game.getPlayers })
   }
 
   makeMove = async (ctx) => {
-    const { gameId } = ctx.params
-    const userId = ctx.cookies.get('user_id')
+    const { gameId, userId } = ctx.params
     const game = GameRepository.getGame(gameId)
 
     const diceAnimals = game.makeMove(userId)
-    ctx.body = { diceAnimals }
 
-    this.checkSocketRoom(ctx)
+    ctx.body = { diceAnimals }
     ctx.io.in(gameId).emit('games:update', { players: game.getPlayers })
   }
 
   sendAnimals = async (ctx) => {
-    const { gameId } = ctx.params
-    const userId = ctx.cookies.get('user_id')
+    const { gameId, userId } = ctx.params
     const game = GameRepository.getGame(gameId)
 
     const { id, toUserId } = ctx.request.body
+
+    const socket = getSocket({ gameId, userId })
+    if (socket) {
+      socket.emit('games:attack')
+    }
 
     ctx.body = game.sendAnimals(userId, toUserId, +id)
     ctx.io.in(gameId).emit('games:update', { players: game.getPlayers })
@@ -93,9 +83,8 @@ class GameController extends AbstractController {
 
   getPlayers = (ctx) => {
     const { gameId } = ctx.params
-    const userId = ctx.cookies.get('user_id')
     const game = GameRepository.getGame(gameId)
-    game.addPlayer(userId)
+    // game.addPlayer(userId)
 
     const players = game.getPlayers
     ctx.body = { players }

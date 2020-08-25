@@ -6,8 +6,8 @@ import BaseButton from 'base/BaseButton'
 import FarmAnimal from '~/front/components/FarmAnimal'
 
 class QuizBonus extends Component {
-    static contextType = NotificationContext
-    #timer = null
+  static contextType = NotificationContext
+  #timer = null
 
     state = {
         quiz: {
@@ -25,29 +25,34 @@ class QuizBonus extends Component {
         return gameId
     }
 
-    componentDidMount() {
-        this.getQuiz().then(data => {
-            const answers = data.list.reduce((acc, key) => {
-                acc[key] = ''
-                return acc
-            }, {})
+  get userId () {
+    const { match: { params: { userId } } } = this.props
+    return userId
+  }
 
-            this.setState({
-                quiz: data,
-                answers
-            })
+  componentDidMount () {
+    this.getQuiz().then(data => {
+      const answers = data.list.reduce((acc, key) => {
+        acc[ key ] = ''
+        return acc
+      }, {})
 
-            this.runTimer()
-        }).catch(({ response }) => {
-            this.setState({
-                message: response.data
-            })
-        })
-    }
+      this.setState({
+        quiz: data,
+        answers
+      })
 
-    async getQuiz() {
-        return (await api.get(`/quiz/${this.gameId}`)).data
-    }
+      this.runTimer()
+    }).catch(({ response }) => {
+      this.setState({
+        message: response.data
+      })
+    })
+  }
+
+  async getQuiz () {
+    return (await api.get(`/quiz/${this.gameId}/${this.userId}`)).data
+  }
 
     runTimer() {
         this.#timer = setInterval(() => {

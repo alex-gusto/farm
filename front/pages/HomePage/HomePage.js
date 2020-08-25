@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom'
 import BaseTextField from 'base/BaseTextField'
 import React, { Component, useState } from 'react'
 import { NotificationContext } from '~/front/providers/NotificationProvider'
+import io from '~/front/api/ws'
 
 class HomePage extends Component {
   static contextType = NotificationContext
@@ -30,28 +31,35 @@ class HomePage extends Component {
     })
   }
 
-  createGame = async () => {
-    const { history } = this.props
-    const { data: { gameId } } = await api.post('/games/create', { name: this.state.name })
-    history.push(`/${gameId}`)
-  }
+  submit = (e) => {
+    e.preventDefault()
+    const data = { name: this.state.name }
 
-  joinGame = async () => {
-    const { history } = this.props
-    try {
-      const { data: { gameId } } = await api.put(`/games/${this.state.gameId}`, { name: this.state.name })
-      history.push(`/${gameId}`)
-    } catch (err) {
+    if (this.state.gameId) {
+      this.request({
+        method: 'put',
+        url: `/games/${this.state.gameId}`,
+        data
+      })
+    } else {
+      this.request({
+        method: 'post',
+        url: `/games`,
+        data
+      })
     }
   }
 
-  submit = (e) => {
-    e.preventDefault()
-
-    if (this.state.gameId) {
-      this.joinGame()
-    } else {
-      this.createGame()
+  request = async (setting = {}) => {
+    const { history } = this.props
+    try {
+      const { data: { gameId, userId } } = await api(setting)
+      const socket = io({ gameId, userId })
+      socket.on('connect', () => {
+        history.push(`/${gameId}/${userId}`)
+      })
+    } catch (err) {
+      console.log(err)
     }
   }
 

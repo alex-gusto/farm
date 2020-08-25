@@ -47,6 +47,11 @@ class PlayerCanvas extends Component {
     return gameId
   }
 
+  get userId () {
+    const { match: { params: { userId } } } = this.props
+    return userId
+  }
+
   openDice = () => {
     this.setState({
       isDiceOpen: true,
@@ -184,7 +189,7 @@ class PlayerCanvas extends Component {
           </div>
         </div>
 
-        {isDiceOpen && <DiceRoll gameId={this.gameId} onClose={this.closeDice}/>}
+        {isDiceOpen && <DiceRoll gameId={this.gameId} userId={this.userId} onClose={this.closeDice}/>}
 
         <BaseModal isOpen={isQuizOpen} closeModal={this.closeQuizBonus} hasClose={false}>
           <QuizBonus onClose={this.closeQuizBonus}/>

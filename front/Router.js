@@ -11,7 +11,7 @@ export default function Router() {
     return (
         <BrowserRouter>
             <Switch>
-                <Route path="/:gameId">
+                <Route path="/:gameId/:userId">
                     <GamePage/>
                 </Route>
 

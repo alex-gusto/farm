@@ -1,12 +1,11 @@
 import React, { Component } from 'react'
 import api from '~/front/api'
 import { withRouter } from 'react-router-dom'
-import io from '~/front/api/ws'
+import io, { disconnect } from '~/front/api/ws'
 import TheMenu from './TheMenu'
 import PlayerList from './PlayerList'
 import PlayerCanvas from '~/front/pages/GamePage/PlayerCanvas'
-import AudioPlayer from '~/front/components/AudioPlayer'
-import cookie from 'cookie'
+// import AudioPlayer from '~/front/components/AudioPlayer'
 import OverLayer from '~/front/components/OverLayer'
 
 class GamePage extends Component {
@@ -17,25 +16,28 @@ class GamePage extends Component {
     }
   }
 
-  constructor (props) {
-    super(props)
-    this.getUserId()
-  }
-
   get gameId () {
     const { match: { params: { gameId } } } = this.props
     return gameId
   }
 
+  get userId () {
+    const { match: { params: { userId } } } = this.props
+    return userId
+  }
+
+  get socket () {
+    return io({ gameId: this.gameId, userId: this.userId })
+  }
+
   componentDidMount () {
     this.getPlayers()
-    io.on('games:join', this.updatePlayers)
-    io.on('games:update', this.updatePlayers)
+    this.socket.on('games:update', this.updatePlayers)
   }
 
   componentWillUnmount () {
-    io.off('games:join', this.updatePlayers)
-    io.off('games:update', this.updatePlayers)
+    this.socket.off('games:update', this.updatePlayers)
+    disconnect()
   }
 
   async getPlayers () {
@@ -46,11 +48,6 @@ class GamePage extends Component {
       const { history } = this.props
       history.push('/')
     }
-  }
-
-  getUserId () {
-    const { user_id } = cookie.parse(document.cookie || '')
-    this.userId = user_id
   }
 
   updatePlayers = ({ players }) => {

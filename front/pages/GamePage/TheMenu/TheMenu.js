@@ -1,13 +1,14 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import api from '~/front/api'
-
+import copyBuffer from '~/front/assets/js/helpers/copy-buffer'
 // base
 import BaseIconButton from 'base/BaseIconButton'
 
 class TheMenu extends Component {
   state = {
-    isOpen: false
+    isOpen: false,
+    isCopied: false
   }
 
   handleMenuClick = () => {
@@ -19,15 +20,42 @@ class TheMenu extends Component {
     return gameId
   }
 
-  exitGame = () => {
+  componentDidMount () {
+    document.addEventListener('click', this.handleMenuClose)
+  }
+
+  componentWillUnmount () {
+    document.removeEventListener('click', this.handleMenuClose)
+  }
+
+  handleMenuClose = () => {
+    this.setState(state => state.isOpen = false)
+  }
+
+  handleExitGame = () => {
     api.delete(`/games/${this.gameId}`)
     this.props.history.push('/')
   }
 
-  render () {
-    const { isOpen } = this.state
+  handleCopyId = () => {
+    copyBuffer(this.gameId)
+      .then(() => {
+        this.setState(state => state.isCopied = true)
+        setTimeout(() => {
+          this.setState(state => {
+            state.isCopied = false
+            state.isOpen = false
+            return state
+          })
+        }, 1000)
+      })
+      .catch(e => console.log(e))
+  }
 
-    return <nav className="menu">
+  render () {
+    const { isOpen, isCopied } = this.state
+
+    return <nav className="menu" onClick={(e) => e.nativeEvent.stopImmediatePropagation()}>
       <BaseIconButton
         onClick={this.handleMenuClick}
         size='medium'
@@ -41,17 +69,18 @@ class TheMenu extends Component {
           color="blue"
           title="Exit game"
           className="menu-list__button"
-          onClick={this.exitGame}
+          onClick={this.handleExitGame}
         >
           Exit
         </BaseIconButton>
 
         <BaseIconButton
           size='medium'
-          color="blue"
+          color={isCopied ? 'orange' : 'blue'}
           className="menu-list__button"
+          onClick={this.handleCopyId}
         >
-          Get ID
+          {isCopied ? 'Copied' : 'Get ID'}
         </BaseIconButton>
       </div>
     </nav>

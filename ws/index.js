@@ -1,19 +1,47 @@
 const sockets = new Map()
 
-module.exports.getSocket = (id) => sockets.get(id)
+const addSocket = ({ gameId, userId }, socket) => {
+  if (!gameId) return
 
-module.exports.onConnection = function onConnection(socket) {
-    const io = this
-    console.log('connected: ', socket.id)
-    sockets.set(socket.id, socket)
+  // save connection
+  const game = sockets.get(gameId) || {}
+  game[ userId ] = socket
 
-    socket.on('error', (v) => console.log(v))
+  sockets.set(gameId, game)
 
-    socket.on('disconnect', () => {
-        sockets.delete(socket.id)
-        console.log('disconnected: ', socket.id)
-    })
+  // connect socket to room
+  socket.join(gameId, () => console.log('joined: ', { gameId, userId }))
+}
 
-    // test
-    // socket.join('1')
+const deleteSocket = ({ gameId, userId }) => {
+  const game = sockets.get(gameId)
+  if (!game) return
+  delete game[ userId ]
+
+  if (!Object.keys(game).length) {
+    sockets.delete(gameId)
+  }
+
+  console.log('disconnected: ', { gameId, userId })
+}
+
+const getSocket = ({ gameId, userId }) => {
+  console.log(sockets.keys())
+  const game = sockets.get(gameId) || {}
+  return game[ userId ]
+}
+
+const onConnection = function onConnection (socket) {
+  const { query } = socket.handshake
+
+  addSocket(query, socket)
+
+  socket.on('error', (v) => console.log(v))
+
+  socket.on('disconnect', () => deleteSocket(query))
+}
+
+module.exports = {
+  getSocket,
+  onConnection
 }
