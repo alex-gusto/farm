@@ -91,7 +91,7 @@ class QuizBonus extends Component {
         const { answers, quiz: { id } } = this.state
         this.setState({ isLoading: true })
         try {
-            const { data } = await api.post(`/quiz/${this.gameId}`, { answers, id })
+            const { data } = await api.post(`/quiz/${this.gameId}/${this.userId}`, { answers, id })
             this.setBonusAnimal(data)
         } catch ({ response }) {
             this.setState({
