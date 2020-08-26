@@ -20,6 +20,18 @@ class TheMenu extends Component {
     return gameId
   }
 
+  componentDidMount () {
+    document.addEventListener('click', this.handleMenuClose)
+  }
+
+  componentWillUnmount () {
+    document.removeEventListener('click', this.handleMenuClose)
+  }
+
+  handleMenuClose = () => {
+    this.setState(state => state.isOpen = false)
+  }
+
   handleExitGame = () => {
     api.delete(`/games/${this.gameId}`)
     this.props.history.push('/')
@@ -29,7 +41,13 @@ class TheMenu extends Component {
     copyBuffer(this.gameId)
       .then(() => {
         this.setState(state => state.isCopied = true)
-        setTimeout(() => this.setState(state => state.isCopied = false), 1500)
+        setTimeout(() => {
+          this.setState(state => {
+            state.isCopied = false
+            state.isOpen = false
+            return state
+          })
+        }, 1000)
       })
       .catch(e => console.log(e))
   }
@@ -37,7 +55,7 @@ class TheMenu extends Component {
   render () {
     const { isOpen, isCopied } = this.state
 
-    return <nav className="menu">
+    return <nav className="menu" onClick={(e) => e.nativeEvent.stopImmediatePropagation()}>
       <BaseIconButton
         onClick={this.handleMenuClick}
         size='medium'

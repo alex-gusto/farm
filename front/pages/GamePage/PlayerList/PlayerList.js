@@ -18,7 +18,8 @@ class PlayerList extends Component {
 
     let body
     if (players.length) {
-      body = players.map((player, i) => <li key={i}><PlayerBlock {...player} disabled={!turn} userId={this.userId} gameId={this.gameId}/></li>)
+      body = players.map((player, i) => <li key={i}><PlayerBlock {...player} disabled={!turn} userId={this.userId}
+                                                                 gameId={this.gameId}/></li>)
     } else {
       body = <li>No players</li>
     }

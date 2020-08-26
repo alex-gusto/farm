@@ -19,7 +19,7 @@ export default function ({ farm, name, turn, isWinner, id, gameId, userId, disab
 
   const attack = async () => {
     try {
-      await api.post(`/games/${gameId}/send-animals`, {
+      await api.post(`/games/${gameId}/${userId}/send-animals`, {
         toUserId: id,
         fromUserId: userId,
         id: 9
