@@ -1,29 +1,35 @@
 const random = require('lodash/random')
 
 class MarketModel {
-    #quizzes = []
+  #quizzes = []
 
-    constructor() {
-        this.#quizzes = this._load()
+  constructor () {
+    this.#quizzes = this._load()
+  }
+
+  get quizzes () {
+    return this.#quizzes
+  }
+
+  getRandomQuiz () {
+    const count = this.#quizzes.length
+    const index = random(count - 1)
+    const quiz = this.#quizzes[ index ]
+
+    if (quiz.disabled) {
+      return this.getRandomQuiz()
     }
 
-    get quizzes() {
-        return this.#quizzes
-    }
+    return quiz
+  }
 
-    getRandomQuiz() {
-        const count = this.#quizzes.length
-        const index = random(count - 1)
-        return this.#quizzes[index]
-    }
+  getQuizById (id) {
+    return this.#quizzes.find(quiz => quiz.id === id)
+  }
 
-    getQuizById(id) {
-        return this.#quizzes.find(quiz => quiz.id === id)
-    }
-
-    _load() {
-        return require('../database/quizzes')
-    }
+  _load () {
+    return require('../database/quizzes')
+  }
 }
 
 module.exports = MarketModel

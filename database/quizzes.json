@@ -2,6 +2,7 @@
   {
     "id": 0,
     "name": "Math",
+    "disabled": true,
     "list": {
       "6 * 5 = ": "30",
       "6 * 6 = ": "36",
@@ -55,6 +56,7 @@
   {
     "id": 1,
     "name": "Russian - English",
+    "disabled": false,
     "list": {
       "бегать": "run",
       "богатый": "rich",
@@ -83,13 +85,14 @@
   {
     "id": 3,
     "name": "English - Russian",
+    "disabled": false,
     "list": {
       "shirt": "рубашка",
       "rich": "богатый",
       "poor": "бедный",
       "high": "высокий",
-      "to open": "открывать;открыть",
-      "to close": "закрывать",
+      "She isn't Polish": "Она не полька",
+      "Sofia is from Italy": "София из Италии",
       "a doctor": "доктор",
       "hungry": "голодный",
       "to dance": "танцевать",
@@ -98,7 +101,7 @@
       "to leave": "покидать;оставлять;покинуть;уходить",
       "to say": "говорить;сказать;",
       "to throw": "бросать;кинуть;забросить;кидать;швырнуть",
-      "to buy": "купить;покупать",
+      "to complete": "завершить",
       "short": "короткий",
       "full": "полный",
       "heavy": "тяжелый",
@@ -137,12 +140,15 @@
       "Italy": "Италия",
       "France": "Франция",
       "Ireland": "Ирландия",
-      "Germany": "Германия"
+      "Germany": "Германия",
+      "He is Scottish":"Он шотландец",
+      "I am American":"Я американец"
     }
   },
   {
     "id": 5,
     "name": "Russian - Italian",
+    "disabled": false,
     "list": {
       "рюкзак": "zaino",
       "ручка": "penna",
@@ -166,6 +172,7 @@
   {
     "id": 8,
     "name": "Italian - Russian",
+    "disabled": false,
     "list": {
       "mare": "море",
       "abitare": "жить",
@@ -176,7 +183,7 @@
       "genitori": "родители",
       "tanto": "много;очень",
       "campagna": "за городом;сельская местность",
-      "Mi piace": "Мне нравится",
+      "Mi piace il mare": "Мне нравится море",
       "stadio": "стадион",
       "pattinare": "кататься на роликах;кататься на коньках",
       "animale": "животное",
