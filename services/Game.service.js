@@ -11,10 +11,10 @@ const cubic = new CubicEntity(cubicConfig)
 
 class GameService {
   static needsToWin = {
-    '0': 10,
-    '1': 5,
-    '2': 2,
-    '3': 2,
+    '0': 2,
+    '1': 2,
+    '2': 1,
+    '3': 1,
     '4': 1
   }
 

@@ -16,18 +16,13 @@ class QuizBonus extends Component {
     answers: {},
     message: null,
     bonusAnimals: null,
-    time: 120,
+    time: 90,
     isLoading: false
   }
 
   get gameId () {
     const { match: { params: { gameId } } } = this.props
     return gameId
-  }
-
-  get userId () {
-    const { match: { params: { userId } } } = this.props
-    return userId
   }
 
   componentDidMount () {

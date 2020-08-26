@@ -14,12 +14,11 @@ class PlayerList extends Component {
   }
 
   render () {
-    const { players } = this.props
+    const { players, turn } = this.props
 
     let body
     if (players.length) {
-      body = players.map((player, i) => <li key={i}><PlayerBlock {...player} gameId={this.gameId} userId={this.userId}/>
-      </li>)
+      body = players.map((player, i) => <li key={i}><PlayerBlock {...player} disabled={!turn} userId={this.userId} gameId={this.gameId}/></li>)
     } else {
       body = <li>No players</li>
     }
