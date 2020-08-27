@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import api from '~/front/api'
 import { withRouter } from 'react-router-dom'
 import { NotificationContext } from '~/front/providers/NotificationProvider'
@@ -16,7 +16,7 @@ class QuizBonus extends Component {
         answers: {},
         message: null,
         bonusAnimals: null,
-        time: 90,
+        time: 100,
         isLoading: false
     }
 
