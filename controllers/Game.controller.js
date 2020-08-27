@@ -1,6 +1,5 @@
 const GameRepository = require('@/GameRepository')
 const GameService = require('@/services/Game.service')
-const QuizService = require('@/services/Quiz.service')
 const AbstractController = require('./Abstract.controller')
 const { getSocket } = require('@/ws')
 
@@ -10,8 +9,6 @@ game.addPlayer('1', '1')
 game.addPlayer('2', '2')
 
 GameRepository.setGame(game.id, game)
-
-const quiz = new QuizService()
 
 class GameController extends AbstractController {
   create = async (ctx) => {
@@ -83,7 +80,6 @@ class GameController extends AbstractController {
   getPlayers = (ctx) => {
     const { gameId } = ctx.params
     const game = GameRepository.getGame(gameId)
-    // game.addPlayer(userId)
 
     const players = game.getPlayers
     ctx.body = { players }
@@ -91,11 +87,24 @@ class GameController extends AbstractController {
   }
 
   getQuiz = (ctx) => {
-    ctx.body = quiz.getQuiz()
+    const { gameId } = ctx.params
+    const game = GameRepository.getGame(gameId)
+    ctx.body = game.getQuiz()
   }
 
-  checkQuiz = (ctx) => {
+  checkQuiz = async (ctx) => {
+    const { gameId, userId } = ctx.params
+    const { answers, id } = ctx.request.body
+    const game = GameRepository.getGame(gameId)
 
+    try {
+      ctx.body = await game.checkQuiz({ answers, id, userId })
+    } catch (e) {
+      ctx.status = 422
+      ctx.body = e
+    } finally {
+      ctx.io.in(gameId).emit('games:update', { players: game.getPlayers })
+    }
   }
 }
 

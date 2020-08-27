@@ -1,14 +1,12 @@
 import React, { Component } from 'react'
-import api from '~/front/api'
 import { withRouter } from 'react-router-dom'
 import { NotificationContext } from '~/front/providers/NotificationProvider'
-import BaseButton from 'base/BaseButton'
-import FarmAnimal from '~/front/components/FarmAnimal'
+import BaseButton from 'base/BaseButton/index'
+import FarmAnimal from '~/front/components/FarmAnimal/index'
 import QuizBlock from '@/components/QuizBlock'
 
 class AttackField extends Component {
   static contextType = NotificationContext
-  #timer = null
 
   state = {
     isQuizOpen: false,
@@ -30,10 +28,18 @@ class AttackField extends Component {
   }
 
   defenceByQuiz = () => {
-    // const { onClose, next } = this.props
     this.setState({ isQuizOpen: true })
-    // next({ type: 'quiz' })
-    // onClose()
+  }
+
+  onQuizSuccess = () => {
+    const { onClose, next } = this.props
+    next({ type: 'quiz', success: true })
+    onClose()
+  }
+
+  onQuizFail = () => {
+    const { next } = this.props
+    next({ type: 'quiz', success: false })
   }
 
   // TODO: refactor attack/defence logic
@@ -62,16 +68,7 @@ class AttackField extends Component {
 
       if (isQuizOpen) {
         return (
-          <QuizBlock onClose={onClose}/>
-        )
-      }
-
-      if (tiger.total) {
-        return (
-          <div className="quiz-bonus-fail">
-            <h2 className="attack-field-title">{userName} is attack you!</h2>
-            <h3 className="quiz-bonus-title mb-3">You have no tigers.</h3>
-          </div>
+          <QuizBlock onClose={onClose} onSuccess={this.onQuizSuccess} onError={this.onQuizFail}/>
         )
       }
 
@@ -84,13 +81,13 @@ class AttackField extends Component {
                                         onClick={this.defenceByTiger}
                                         className="attack-field-animal" {...tiger} /> : ''
             }
-            {/*<BaseButton*/}
-            {/*color="orange"*/}
-            {/*onClick={this.defenceByQuiz}*/}
-            {/*disabled={isLoading}*/}
-            {/*loading={isLoading}>*/}
-            {/*Quiz*/}
-            {/*</BaseButton>*/}
+            <BaseButton
+              color="orange"
+              onClick={this.defenceByQuiz}
+              disabled={isLoading}
+              loading={isLoading}>
+              Quiz
+            </BaseButton>
           </div>
         </div>
       )

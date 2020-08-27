@@ -1,14 +1,5 @@
-.quiz-bonus {
-  padding: 30px;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  &-form {
-    width: 100%;
-  }
+.quiz-block {
+  width: 100%;
 
   &-title {
     font-size: 30px;
@@ -32,11 +23,6 @@
   &-fail {
     text-align: center;
     color: tomato;
-  }
-
-  &-animal {
-    max-width: 200px;
-    margin: auto;
   }
 }
 

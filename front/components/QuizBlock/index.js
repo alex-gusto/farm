@@ -1,2 +1,2 @@
-export { default } from './QuizBonus'
+export { default } from './QuizBlock'
 import './styles.scss'

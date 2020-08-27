@@ -3,12 +3,11 @@ import api from '~/front/api'
 import { withRouter } from 'react-router-dom'
 import { NotificationContext } from '~/front/providers/NotificationProvider'
 import BaseButton from 'base/BaseButton'
-import FarmAnimal from '~/front/components/FarmAnimal'
 import classnames from 'classnames'
 import PropTypes from 'prop-types'
 import noop from 'lodash/noop'
 
-class QuizBonus extends Component {
+class QuizBlock extends Component {
   static contextType = NotificationContext
   #timer = null
 
@@ -34,27 +33,27 @@ class QuizBonus extends Component {
   }
 
   componentDidMount () {
-    this.getQuiz().then(data => {
+    this.getQuiz()
+  }
+
+  componentWillUnmount () {
+    this.destroyTimer()
+  }
+
+  async getQuiz () {
+    const { getUrl } = this.props
+    try {
+      const { data } = await api.get(getUrl)
       const answers = data.list.reduce((acc, key) => {
         acc[ key ] = ''
         return acc
       }, {})
 
-      this.setState({
-        quiz: data,
-        answers
-      })
-
+      this.setState({ quiz: data, answers })
       this.runTimer()
-    }).catch(({ response }) => {
-      this.setState({
-        message: response.data
-      })
-    })
-  }
-
-  async getQuiz () {
-    return (await api.get(`/quiz`)).data
+    } catch ({ response }) {
+      console.log(response.data)
+    }
   }
 
   runTimer () {
@@ -91,11 +90,12 @@ class QuizBonus extends Component {
     this.destroyTimer()
     if (e) e.preventDefault()
 
-    const { answers, quiz: { id } } = this.state
-    const { onSuccess, onError } = this.props
     this.setState({ isLoading: true })
+    const { answers, quiz: { id } } = this.state
+    const { onSuccess, onError, postUrl } = this.props
+
     try {
-      const { data } = await api.post(`/quiz`, { answers, id })
+      const { data } = await api.post(postUrl, { answers, id })
       onSuccess(data)
     } catch ({ response }) {
       onError()
@@ -146,20 +146,9 @@ class QuizBonus extends Component {
     }
 
     const content = () => {
-      // if (bonusAnimals) {
-      //   return (
-      //     <div>
-      //       <h2 className="quiz-bonus-title">{`You've got ${bonusAnimals.map(animal => animal.name).join(', ')}!`}</h2>
-      //       {bonusAnimals.map((animal, key) => <FarmAnimal isNameHidden={true}
-      //                                                      className="quiz-bonus-animal"
-      //                                                      key={key} {...animal} />)}
-      //     </div>
-      //   )
-      // }
-
       return (
-        <form className="quiz-bonus-form" onSubmit={this.checkQuiz}>
-          <h2 className="quiz-bonus-title">{name} <span className="quiz-bonus-time">Time: <br/> {time}</span>
+        <form className="quiz-block-form" onSubmit={this.checkQuiz}>
+          <h2 className="quiz-block-title">{name} <span className="quiz-block-time">Time: <br/> {time}</span>
           </h2>
           <ul className="list-group mb-3">
             {
@@ -182,7 +171,7 @@ class QuizBonus extends Component {
     }
 
     return (
-      <div className="quiz-bonus">
+      <div className="quiz-block">
         {
           content()
         }
@@ -191,14 +180,18 @@ class QuizBonus extends Component {
   }
 }
 
-QuizBonus.propTypes = {
+QuizBlock.propTypes = {
   onSuccess: PropTypes.func,
-  onError: PropTypes.func
+  onError: PropTypes.func,
+  getUrl: PropTypes.string,
+  postUrl: PropTypes.string
 }
 
-QuizBonus.defaultProps = {
+QuizBlock.defaultProps = {
   onSuccess: noop,
-  onError: noop
+  onError: noop,
+  getUrl: '/quiz',
+  postUrl: '/quiz'
 }
 
-export default withRouter(QuizBonus)
+export default withRouter(QuizBlock)

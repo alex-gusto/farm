@@ -8,7 +8,7 @@ import PlayerCanvas from '~/front/pages/GamePage/PlayerCanvas'
 // import AudioPlayer from '~/front/components/AudioPlayer'
 import OverLayer from '~/front/components/OverLayer'
 import BaseModal from '~/front/components/base/BaseModal/BaseModal'
-import AttackField from '~/front/components/AttackField'
+import AttackField from './AttackField'
 
 class GamePage extends Component {
   state = {
