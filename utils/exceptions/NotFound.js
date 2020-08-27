@@ -1,4 +1,4 @@
-import CustomException from './CustomException'
+const CustomException = require('./CustomException')
 
 
 class NotFound extends CustomException {

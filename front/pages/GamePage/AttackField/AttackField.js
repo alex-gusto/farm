@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom'
 import { NotificationContext } from '~/front/providers/NotificationProvider'
 import BaseButton from 'base/BaseButton'
 import FarmAnimal from '~/front/components/FarmAnimal'
-import QuizBonus from '@/components/QuizBonus'
+import QuizBlock from '@/components/QuizBlock'
 
 class AttackField extends Component {
   static contextType = NotificationContext
@@ -62,7 +62,7 @@ class AttackField extends Component {
 
       if (isQuizOpen) {
         return (
-          <QuizBonus onClose={onClose}/>
+          <QuizBlock onClose={onClose}/>
         )
       }
 
