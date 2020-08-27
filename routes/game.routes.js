@@ -7,6 +7,10 @@ const router = new Router()
 
 router.get('/:gameId', ctrl.getPlayers)
 
+router.get('/quiz', ctrl.getQuiz)
+
+router.post('/quiz', ctrl.checkQuiz)
+
 router.delete('/:gameId/:userId', ctrl.leave)
 
 router.get('/:gameId/:userId', ctrl.getPlayer)

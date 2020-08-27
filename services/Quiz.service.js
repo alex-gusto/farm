@@ -41,7 +41,6 @@ class QuizService {
     if (isValid) {
       return this.quizSuccess()
     }
-
     return this.quizFail()
   }
 

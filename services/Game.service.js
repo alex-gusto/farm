@@ -115,23 +115,32 @@ class GameService {
 
     // FIXME: need refactor
     player.isAnimalEnough(animalId, count)
-    player.updateAnimalCount(animalId, -count)
+
+    const socketTo = getSocket({ gameId, userId: toUserId })
+    const defence = ({ type, id, count }) => {
+      if (type === 'animal') {
+        playerTo.isAnimalEnough(id, count)
+        playerTo.updateAnimalCount(id, -count)
+        return true
+      }
+
+      return false
+    }
 
     return new Promise(resolve => {
-      const socket = getSocket({ gameId, userId })
-      const socketTo = getSocket({ gameId, userId: toUserId })
-
-      if (socket && socketTo) {
-        socket.to(socketTo.id).emit(
+      if (socketTo) {
+        socketTo.emit(
           'games:attack',
           {
-            name: player.name,
-            defence () {
-              // this.checkPredators(playerTo, animalId)
-
-            }
+            name: player.name
           },
-          () => {
+          (...args) => {
+            player.updateAnimalCount(animalId, -count)
+
+            if (!defence(...args)) {
+              this.checkPredators(playerTo, animalId)
+            }
+
             resolve()
           }
         )

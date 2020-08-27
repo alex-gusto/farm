@@ -38,7 +38,6 @@ export default function ({ farm, name, turn, isWinner, id, gameId, userId, disab
 
       <div className="player-block__name">
         {name} {state}
-
       </div>
 
       <div className="player-block__body">

@@ -48,7 +48,7 @@ class PlayerEntity {
       // TODO: make it dynamic
       if (!FARM.includes(animal.id)) return acc
 
-      acc[ animal.id ] = 0
+      acc[ animal.id ] = 1
       return acc
     }, {})
   }

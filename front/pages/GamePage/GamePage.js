@@ -46,10 +46,12 @@ class GamePage extends Component {
     disconnect()
   }
 
-  openAttack = (data, fn) => {
-    console.log(fn)
+  openAttack = (data, next) => {
     this.setState({
-      attackData: data,
+      attackData: {
+        ...data,
+        next
+      },
       isOnAttack: true
     })
   }

@@ -4,19 +4,14 @@ import { withRouter } from 'react-router-dom'
 import { NotificationContext } from '~/front/providers/NotificationProvider'
 import BaseButton from 'base/BaseButton'
 import FarmAnimal from '~/front/components/FarmAnimal'
+import QuizBonus from '@/components/QuizBonus'
 
 class AttackField extends Component {
   static contextType = NotificationContext
   #timer = null
 
   state = {
-    quiz: {
-      list: []
-    },
-    answers: {},
-    message: null,
-    bonusAnimals: null,
-    time: 120,
+    isQuizOpen: false,
     isLoading: false
   }
 
@@ -34,39 +29,24 @@ class AttackField extends Component {
 
   }
 
-  async getQuiz () {
-    return (await api.get(`/quiz/${this.gameId}/${this.userId}`)).data
-  }
-
-  runTimer () {
-
-  }
-
-  destroyTimer () {
-    clearInterval(this.#timer)
-  }
-
-  changeAnswer (question, value) {
-    this.setState(({ answers }) => {
-      answers[ question ] = value
-
-      return {
-        answers: answers
-      }
-    })
-  }
-
   defenceByQuiz = () => {
-
+    // const { onClose, next } = this.props
+    this.setState({ isQuizOpen: true })
+    // next({ type: 'quiz' })
+    // onClose()
   }
 
-  defenceByTiger () {
+  // TODO: refactor attack/defence logic
+  defenceByTiger = () => {
+    const { onClose, next } = this.props
 
+    next({ type: 'animal', id: 9, count: 1 })
+    onClose()
   }
 
   render () {
-    const { quiz: { list }, message, bonusAnimals, time, isLoading } = this.state
-    const { farm, name: userName } = this.props
+    const { isQuizOpen, isLoading, message } = this.state
+    const { farm, name: userName, onClose } = this.props
 
     const tiger = farm.find(animal => animal.id === 9)
 
@@ -75,7 +55,22 @@ class AttackField extends Component {
         return (
           <div className="quiz-bonus-fail">
             <h3 className="quiz-bonus-title mb-3">{message}</h3>
-            <BaseButton theme="secondary" color="orange" onClick={this.props.onClose}>OK</BaseButton>
+            <BaseButton theme="secondary" color="orange" onClick={onClose}>OK</BaseButton>
+          </div>
+        )
+      }
+
+      if (isQuizOpen) {
+        return (
+          <QuizBonus onClose={onClose}/>
+        )
+      }
+
+      if (tiger.total) {
+        return (
+          <div className="quiz-bonus-fail">
+            <h2 className="attack-field-title">{userName} is attack you!</h2>
+            <h3 className="quiz-bonus-title mb-3">You have no tigers.</h3>
           </div>
         )
       }
@@ -84,9 +79,11 @@ class AttackField extends Component {
         <div>
           <h2 className="attack-field-title">{userName} is attack you! Defence by: </h2>
           <div className="attack-field-defend">
-            {tiger && tiger.total && <FarmAnimal isNameHidden={true}
-                                                 onClick={this.defenceByTiger}
-                                                 className="attack-field-animal" {...tiger} />}
+            {
+              tiger.total ? <FarmAnimal isNameHidden={true}
+                                        onClick={this.defenceByTiger}
+                                        className="attack-field-animal" {...tiger} /> : ''
+            }
             {/*<BaseButton*/}
             {/*color="orange"*/}
             {/*onClick={this.defenceByQuiz}*/}
