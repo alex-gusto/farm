@@ -4,17 +4,18 @@ import { withRouter } from 'react-router-dom'
 import { NotificationContext } from '~/front/providers/NotificationProvider'
 import BaseButton from 'base/BaseButton'
 import FarmAnimal from '~/front/components/FarmAnimal'
+import classnames from 'classnames'
 
 class QuizBonus extends Component {
-  static contextType = NotificationContext
-  #timer = null
+    static contextType = NotificationContext
+    #timer = null
 
     state = {
         quiz: {
             list: []
         },
         answers: {},
-        message: null,
+        errors: null,
         bonusAnimals: null,
         time: 100,
         isLoading: false
@@ -25,34 +26,34 @@ class QuizBonus extends Component {
         return gameId
     }
 
-  get userId () {
-    const { match: { params: { userId } } } = this.props
-    return userId
-  }
+    get userId() {
+        const { match: { params: { userId } } } = this.props
+        return userId
+    }
 
-  componentDidMount () {
-    this.getQuiz().then(data => {
-      const answers = data.list.reduce((acc, key) => {
-        acc[ key ] = ''
-        return acc
-      }, {})
+    componentDidMount() {
+        this.getQuiz().then(data => {
+            const answers = data.list.reduce((acc, key) => {
+                acc[key] = ''
+                return acc
+            }, {})
 
-      this.setState({
-        quiz: data,
-        answers
-      })
+            this.setState({
+                quiz: data,
+                answers
+            })
 
-      this.runTimer()
-    }).catch(({ response }) => {
-      this.setState({
-        message: response.data
-      })
-    })
-  }
+            this.runTimer()
+        }).catch(({ response }) => {
+            this.setState({
+                message: response.data
+            })
+        })
+    }
 
-  async getQuiz () {
-    return (await api.get(`/quiz/${this.gameId}/${this.userId}`)).data
-  }
+    async getQuiz() {
+        return (await api.get(`/quiz/${this.gameId}/${this.userId}`)).data
+    }
 
     runTimer() {
         this.#timer = setInterval(() => {
@@ -93,12 +94,13 @@ class QuizBonus extends Component {
         try {
             const { data } = await api.post(`/quiz/${this.gameId}/${this.userId}`, { answers, id })
             this.setBonusAnimal(data)
+            setTimeout(this.props.onClose, 1500)
         } catch ({ response }) {
             this.setState({
-                message: response.data
+                errors: response.data
             })
         } finally {
-            setTimeout(this.props.onClose, 1500)
+            this.setState({ isLoading: false })
         }
     }
 
@@ -109,17 +111,51 @@ class QuizBonus extends Component {
     }
 
     render() {
-        const { quiz: { name, list }, message, bonusAnimals, time, isLoading } = this.state
+        const { onClose } = this.props
+        const { quiz: { name, list }, errors, answers, bonusAnimals, time, isLoading } = this.state
+
+        const questionList = () => {
+            const inputHolder = (question) => {
+                const className = classnames([
+                    'form-control',
+                    {
+                        'is-invalid': errors && errors[question],
+                        'is-valid': errors && !errors[question]
+                    }
+                ])
+
+                return <div className="col-auto">
+                    <input type="text"
+                           className={className}
+                           value={answers[question]}
+                           onChange={({ target: { value } }) => this.changeAnswer(question, value)}/>
+                    <div className="invalid-feedback">
+                        {errors && errors[question]}
+                    </div>
+                </div>
+            }
+
+            return list.map((question, key) => (
+                <li key={key} className="list-group-item" aria-disabled="true">
+                    <div className="row align-items-center">
+                        <div className="col">
+                            {question}
+                        </div>
+                        {inputHolder(question)}
+                    </div>
+                </li>
+            ))
+        }
 
         const content = () => {
-            if (message) {
-                return (
-                    <div className="quiz-bonus-fail">
-                        <h3 className="quiz-bonus-title mb-3">{message}</h3>
-                        <BaseButton theme="secondary" color="orange" onClick={this.props.onClose}>OK</BaseButton>
-                    </div>
-                )
-            }
+            // if (message) {
+            //     return (
+            //         <div className="quiz-bonus-fail">
+            //             <h3 className="quiz-bonus-title mb-3">{message}</h3>
+            //             <BaseButton theme="secondary" color="orange" onClick={this.props.onClose}>OK</BaseButton>
+            //         </div>
+            //     )
+            // }
 
             if (bonusAnimals) {
                 return (
@@ -138,26 +174,19 @@ class QuizBonus extends Component {
                     </h2>
                     <ul className="list-group mb-3">
                         {
-                            list.map((question, key) => (
-                                <li key={key} className="list-group-item" aria-disabled="true">
-                                    <div className="row align-items-center">
-                                        <div className="col">
-                                            {question}
-                                        </div>
-                                        <div className="col-auto">
-                                            <input type="text" className="form-control"
-                                                   value={this.state.answers[question]}
-                                                   onChange={({ target: { value } }) => this.changeAnswer(question, value)}/>
-                                        </div>
-                                    </div>
-                                </li>
-                            ))
+                            questionList()
                         }
                     </ul>
 
                     <div className="text-center">
-                        <BaseButton theme="secondary" color="orange" type="submit" disabled={isLoading}
-                                    loading={isLoading}>Check</BaseButton>
+                        <BaseButton theme="secondary"
+                                    color="orange"
+                                    type={errors ? 'button' : 'submit'}
+                                    onClick={errors && onClose}
+                                    disabled={isLoading}
+                                    loading={isLoading}>
+                            {errors ? 'OK' : 'Check'}
+                        </BaseButton>
                     </div>
                 </form>
             )

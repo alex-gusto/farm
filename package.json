@@ -2,9 +2,9 @@
   "name": "farm-node",
   "version": "1.0.0",
   "scripts": {
-    "start": "nodemon index.js",
+    "server": "nodemon index.js",
     "build": "webpack --config ./webpack.config.js",
-    "dev": "webpack-dev-server --history-api-fallback --inline --progress --open"
+    "front": "webpack-dev-server --history-api-fallback --inline --progress --open"
   },
   "nodemonConfig": {
     "ignore": [
