@@ -57,7 +57,7 @@ class QuizService {
       this.#player.updateAnimalCount(0, -1)
     }
 
-    throw new FormError(JSON.stringify(errors))
+    throw new FormError(errors)
   }
 
   quizSuccess () {
