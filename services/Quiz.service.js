@@ -12,7 +12,7 @@ class QuizService extends EventEmitter {
 
   getQuiz () {
     const quiz = this.#model.getRandomQuiz()
-    const list = shuffle(Object.keys(quiz.list)).slice(0, 1)
+    const list = shuffle(Object.keys(quiz.list)).slice(0, 4)
 
     return {
       ...quiz,
