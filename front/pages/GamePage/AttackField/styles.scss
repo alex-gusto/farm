@@ -1,4 +1,4 @@
-.quiz-bonus {
+.attack-field {
   padding: 30px;
   height: 100%;
   display: flex;
@@ -35,8 +35,13 @@
   }
 
   &-animal {
-    max-width: 200px;
-    margin: auto;
+    min-width: 140px;
+  }
+
+  &-defend {
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }
 

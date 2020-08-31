@@ -56,6 +56,7 @@ module.exports = {
     extensions: [ '.js', '.jsx', '.json' ],
     alias: {
       '~': path.resolve(__dirname, '.'),
+      '@': path.resolve(__dirname, './front'),
       'base': path.resolve(__dirname, './front/components/base'),
       'assets': path.resolve(__dirname, './front/assets'),
       utils: path.resolve(__dirname, './utils')

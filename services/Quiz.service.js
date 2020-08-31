@@ -1,20 +1,13 @@
-const AnimalsModel = require('@/models/Animals.model')
-const QuizzesModel = require('@/models/Quiz.model')
 const shuffle = require('lodash/shuffle')
-const CubicEntity = require('@/entities/Cubic.entity')
-const cubicConfig = require('@/database/quiz-cubic')
-const FormError = require('@/utils/exceptions/FormError')
+const QuizzesModel = require('@/models/Quiz.model')
+const EventEmitter = require('events')
 
-const cubic = new CubicEntity(cubicConfig)
-
-class QuizService {
+class QuizService extends EventEmitter {
   #model = null
-  #animalsModel = null
-  #player = null
 
   constructor () {
+    super()
     this.#model = new QuizzesModel()
-    this.#animalsModel = new AnimalsModel()
   }
 
   getQuiz () {
@@ -38,37 +31,18 @@ class QuizService {
       const _answers = quiz.list[ question ].split(';')
       const isCorrect = _answers.some(a => a.toLocaleLowerCase() === answer.trim().toLocaleLowerCase())
 
-      if(!isCorrect){
-        acc[question] = quiz.list[ question ]
+      if (!isCorrect) {
+        acc[ question ] = quiz.list[ question ]
       }
 
       return acc
     }, {})
 
-    if (!Object.keys(errors).length) {
-      return this.quizSuccess()
+    if (Object.keys(errors).length) {
+      this.emit('fail', errors)
+    } else {
+      this.emit('success')
     }
-
-    return this.quizFail(errors)
-  }
-
-  quizFail (errors) {
-    if (this.#player.farm[ 0 ] > 1) {
-      this.#player.updateAnimalCount(0, -1)
-    }
-
-    throw new FormError(errors)
-  }
-
-  quizSuccess () {
-    const result = cubic.throwDice()
-    result.forEach(id => this.#player.updateAnimalCount(id, 1))
-
-    return this.#animalsModel.getAnimalsByIds(result)
-  }
-
-  setPlayer (player) {
-    this.#player = player
   }
 }
 

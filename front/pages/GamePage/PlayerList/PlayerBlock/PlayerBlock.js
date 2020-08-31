@@ -21,6 +21,7 @@ export default function ({ farm, name, turn, isWinner, id, gameId, userId, disab
     try {
       await api.post(`/games/${gameId}/${userId}/send-animals`, {
         toUserId: id,
+        fromUserId: userId,
         id: 9
       })
     } catch ({ response }) {
@@ -37,7 +38,6 @@ export default function ({ farm, name, turn, isWinner, id, gameId, userId, disab
 
       <div className="player-block__name">
         {name} {state}
-
       </div>
 
       <div className="player-block__body">

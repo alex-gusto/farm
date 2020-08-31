@@ -68,8 +68,8 @@ class PlayerEntity {
   }
 
   breedAnimals (id, bonus = 0) {
-    const farm = this.farm
     this._hasResident(id)
+    const farm = this.farm
 
     farm[ id ] = farm[ id ] + bonus
 
@@ -79,6 +79,7 @@ class PlayerEntity {
   }
 
   updateAnimalCount (id, increment = 0) {
+    this._hasResident(id)
     const farm = this.farm
 
     farm[ id ] = farm[ id ] + increment

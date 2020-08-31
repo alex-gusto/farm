@@ -8,7 +8,7 @@ import api from '~/front/api'
 
 // Components
 import DiceRoll from '~/front/components/DiceRoll'
-import QuizBonus from '~/front/components/QuizBonus'
+import QuizBonus from './QuizBonus'
 import FarmGrid from '~/front/components/FarmGrid'
 import DynamicMetaData from './DynamicMetaData'
 
@@ -192,7 +192,9 @@ class PlayerCanvas extends Component {
         {isDiceOpen && <DiceRoll gameId={this.gameId} userId={this.userId} onClose={this.closeDice}/>}
 
         <BaseModal isOpen={isQuizOpen} closeModal={this.closeQuizBonus} hasClose={false}>
-          <QuizBonus onClose={this.closeQuizBonus}/>
+          <QuizBonus onClose={this.closeQuizBonus}
+                     gameId={this.gameId} userId={this.userId}
+          />
         </BaseModal>
       </div>
     )

@@ -3,10 +3,16 @@ const PlayerQueue = require('../utils/PlayerQueue')
 const AnimalsModel = require('@/models/Animals.model')
 const MarketEntity = require('@/entities/Market.entity')
 const CubicEntity = require('@/entities/Cubic.entity')
-const cubicConfig = require('@/database/game-cubic')
+const gameCubicConfig = require('@/database/game-cubic')
+const quizCubicConfig = require('@/database/quiz-cubic')
 const uniqueID = require('@/utils/unique-id')
+const { getSocket } = require('@/ws')
 
-const cubic = new CubicEntity(cubicConfig)
+const QuizService = require('@/services/Quiz.service')
+
+const quiz = new QuizService()
+const quizCubic = new CubicEntity(quizCubicConfig)
+const gameCubic = new CubicEntity(gameCubicConfig)
 
 class GameService {
   static needsToWin = {
@@ -69,7 +75,7 @@ class GameService {
     if (!player) {
       player = new PlayerEntity({ id, name, animals, defenders, needsToWin: GameService.needsToWin })
       // HARD CODE
-      player.breedAnimals(0, 1) // set one duck on init
+      player.updateAnimalCount(0, 1) // set one duck on init
       this.#playersQueue.addPlayer(player.id, player)
     }
 
@@ -88,7 +94,7 @@ class GameService {
     this.#playersQueue.checkPlayerTurn(userId)
     const player = this.getPlayer(userId)
 
-    const diceAnimals = cubic.throwDice()
+    const diceAnimals = gameCubic.throwDice()
 
     const [ a, b ] = diceAnimals
     const bonus = a === b ? 1 : 0
@@ -108,15 +114,43 @@ class GameService {
     return this.animalsModel.getAnimalsByIds(diceAnimals)
   }
 
-  sendAnimals (userId, toUserId, animalId, count = 1) {
+  sendAnimals ({ gameId, userId, toUserId, animalId, count }) {
     const player = this.getPlayer(userId)
     const playerTo = this.getPlayer(toUserId)
 
     // FIXME: need refactor
     player.isAnimalEnough(animalId, count)
-    player.updateAnimalCount(animalId, -count)
 
-    this.checkPredators(playerTo, animalId)
+    const socketTo = getSocket({ gameId, userId: toUserId })
+    const defence = ({ type, id, count, success }) => {
+      if (type === 'animal') {
+        playerTo.isAnimalEnough(id, count)
+        playerTo.updateAnimalCount(id, -count)
+        return true
+      }
+
+      return type === 'quiz' && success
+    }
+
+    return new Promise(resolve => {
+      if (socketTo) {
+        socketTo.emit(
+          'games:attack',
+          {
+            name: player.name
+          },
+          (...args) => {
+            player.updateAnimalCount(animalId, -count)
+
+            if (!defence(...args)) {
+              this.checkPredators(playerTo, animalId)
+            }
+
+            resolve()
+          }
+        )
+      }
+    })
   }
 
   // TODO: set active player
@@ -175,6 +209,38 @@ class GameService {
 
     const result = this.#market.exchangeAnimals(from, fromCount, to)
     return player.exchangeAnimals(from, fromCount - result.rest, to, result.toCount)
+  }
+
+  onQuizSuccess (userId, resolve) {
+    const player = this.getPlayer(userId)
+    const result = quizCubic.throwDice()
+    result.forEach(id => player.updateAnimalCount(id, 1))
+
+    const animals = this.animalsModel.getAnimalsByIds(result)
+    resolve(animals)
+  }
+
+  onQuizFail (userId) {
+    const player = this.getPlayer(userId)
+    if (player.farm[ 0 ] > 1) {
+      player.updateAnimalCount(0, -1)
+    }
+  }
+
+  getQuiz () {
+    return quiz.getQuiz()
+  }
+
+  checkQuiz ({ answers, id, userId }) {
+    return new Promise((resolve, reject) => {
+      quiz.once('success', () => this.onQuizSuccess(userId, resolve))
+      quiz.once('fail', (errors) => {
+        this.onQuizFail(userId)
+        reject(errors)
+      })
+
+      quiz.checkQuiz(id, answers)
+    })
   }
 }
 

@@ -20,6 +20,11 @@ class TheMenu extends Component {
     return gameId
   }
 
+  get userId () {
+    const { match: { params: { userId } } } = this.props
+    return userId
+  }
+
   componentDidMount () {
     document.addEventListener('click', this.handleMenuClose)
   }
@@ -33,7 +38,7 @@ class TheMenu extends Component {
   }
 
   handleExitGame = () => {
-    api.delete(`/games/${this.gameId}`)
+    api.delete(`/games/${this.gameId}/${this.userId}`)
     this.props.history.push('/')
   }
 

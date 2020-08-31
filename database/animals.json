@@ -3,36 +3,42 @@
     "id": 0,
     "name": "Rabbits",
     "type": 0,
+    "maxCount": 120,
     "image": "/img/rabbit.svg"
   },
   {
     "id": 1,
     "name": "Pigs",
     "type": 0,
+    "maxCount": 80,
     "image": "/img/pig.svg"
   },
   {
     "id": 2,
     "name": "Sheep",
     "type": 0,
+    "maxCount": 50,
     "image": "/img/sheep.svg"
   },
   {
     "id": 3,
     "name": "Horses",
     "type": 0,
+    "maxCount": 30,
     "image": "/img/horse.svg"
   },
   {
     "id": 4,
     "name": "Cows",
     "type": 0,
+    "maxCount": 20,
     "image": "/img/cow.svg"
   },
   {
     "id": 5,
     "name": "Cat",
     "type": 1,
+    "maxCount": 1,
     "count": 1,
     "image": "/img/cat.svg"
   },
@@ -41,12 +47,14 @@
     "name": "Dog",
     "count": 0.6,
     "type": 1,
+    "maxCount": 1,
     "image": "/img/dog.svg"
   },
   {
     "id": 7,
     "name": "Fox",
     "type": 2,
+    "maxCount": null,
     "image": "/img/fox.svg",
     "against": [
       5
@@ -60,6 +68,7 @@
     "id": 8,
     "name": "Bear",
     "type": 2,
+    "maxCount": null,
     "image": "/img/bear.svg",
     "against": [
       6
@@ -74,8 +83,11 @@
     "id": 9,
     "name": "Tiger",
     "type": 2,
+    "maxCount": 10,
     "image": "/img/tiger.svg",
-    "against": [],
+    "against": [
+      9
+    ],
     "eats": [
       1,
       2
