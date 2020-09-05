@@ -232,12 +232,21 @@ class GameService {
   }
 
   checkQuiz ({ answers, id, userId }) {
+    const self = this
     return new Promise((resolve, reject) => {
-      quiz.once('success', () => this.onQuizSuccess(userId, resolve))
-      quiz.once('fail', (errors) => {
-        this.onQuizFail(userId)
+      function onQuizSuccess () {
+        quiz.off('fail', onQuizFail)
+        self.onQuizSuccess(userId, resolve)
+      }
+
+      function onQuizFail (errors) {
+        quiz.off('success', onQuizSuccess)
+        self.onQuizFail(userId)
         reject(errors)
-      })
+      }
+
+      quiz.once('success', onQuizSuccess)
+      quiz.once('fail', onQuizFail)
 
       quiz.checkQuiz(id, answers)
     })
