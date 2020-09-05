@@ -5,7 +5,7 @@ import BaseButton from 'base/BaseButton/index'
 import FarmAnimal from '~/front/components/FarmAnimal/index'
 import QuizBlock from '@/components/QuizBlock'
 
-class AttackField extends Component {
+class DefenceField extends Component {
   static contextType = NotificationContext
 
   state = {
@@ -103,4 +103,4 @@ class AttackField extends Component {
   }
 }
 
-export default withRouter(AttackField)
+export default withRouter(DefenceField)

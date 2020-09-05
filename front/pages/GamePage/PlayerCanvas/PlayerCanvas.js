@@ -28,6 +28,7 @@ class PlayerCanvas extends Component {
   state = {
     isDiceOpen: false,
     isQuizOpen: false,
+    isAttackOpen: false,
     quizUsed: false,
     formData: {
       from: undefined,
@@ -60,29 +61,28 @@ class PlayerCanvas extends Component {
   }
 
   closeDice = () => {
-    this.setState({
-      isDiceOpen: false,
-      quizUsed: false,
-      isLoading: false
-    })
+    this.setState({ isDiceOpen: false, quizUsed: false, isLoading: false })
   }
 
   openQuizBonus = () => {
-    this.setState({
-      isQuizOpen: true,
-      quizUsed: true
-    })
+    this.setState({ isQuizOpen: true, quizUsed: true })
   }
 
   closeQuizBonus = () => {
-    this.setState({
-      isQuizOpen: false
-    })
+    this.setState({ isQuizOpen: false })
+  }
+
+  openAttack = () => {
+    this.setState({ isAttackOpen: true })
+  }
+
+  closeAttack = () => {
+    this.setState({ isAttackOpen: false })
   }
 
   render () {
     const { farm, turn, name } = this.props
-    const { isDiceOpen, formData, isQuizOpen, quizUsed, isLoading, market } = this.state
+    const { isAttackOpen, isDiceOpen, formData, isQuizOpen, quizUsed, isLoading, market } = this.state
 
     return (
       <div className="player-canvas">
@@ -112,6 +112,15 @@ class PlayerCanvas extends Component {
                 disabled={!turn || quizUsed}
                 onClick={this.openQuizBonus}
               >Get Bonus
+              </BaseButton>
+            </div>
+
+            <div className="col-auto">
+              <BaseButton
+                color="orange"
+                disabled={!turn}
+                onClick={this.openAttack}
+              >Attack
               </BaseButton>
             </div>
           </div>
@@ -195,6 +204,10 @@ class PlayerCanvas extends Component {
           <QuizBonus onClose={this.closeQuizBonus}
                      gameId={this.gameId} userId={this.userId}
           />
+        </BaseModal>
+
+        <BaseModal isOpen={isAttackOpen} closeModal={this.closeAttack}>
+
         </BaseModal>
       </div>
     )

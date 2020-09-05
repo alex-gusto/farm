@@ -8,7 +8,7 @@ import PlayerCanvas from '~/front/pages/GamePage/PlayerCanvas'
 // import AudioPlayer from '~/front/components/AudioPlayer'
 import OverLayer from '~/front/components/OverLayer'
 import BaseModal from '~/front/components/base/BaseModal/BaseModal'
-import AttackField from './AttackField'
+import DefenceField from '~/front/pages/GamePage/DefenceField/DefenceField'
 
 class GamePage extends Component {
   state = {
@@ -105,7 +105,7 @@ class GamePage extends Component {
         }
 
         <BaseModal isOpen={isOnAttack} closeModal={this.closeAttack} hasClose={false}>
-          <AttackField onClose={this.closeAttack} {...attackData} farm={me.farm}/>
+          <DefenceField onClose={this.closeAttack} {...attackData} farm={me.farm}/>
         </BaseModal>
 
         {/*<AudioPlayer/>*/}

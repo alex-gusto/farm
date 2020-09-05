@@ -10,6 +10,7 @@ import noop from 'lodash/noop'
 class QuizBlock extends Component {
   static contextType = NotificationContext
   #timer = null
+  _isMounted = false
 
   state = {
     quiz: {
@@ -33,10 +34,12 @@ class QuizBlock extends Component {
   }
 
   componentDidMount () {
+    this._isMounted = true
     this.getQuiz()
   }
 
   componentWillUnmount () {
+    this._isMounted = false
     this.destroyTimer()
   }
 
@@ -49,6 +52,8 @@ class QuizBlock extends Component {
         return acc
       }, {})
 
+      if (!this._isMounted) return
+
       this.setState({ quiz: data, answers })
       this.runTimer()
     } catch ({ response }) {
@@ -58,6 +63,8 @@ class QuizBlock extends Component {
 
   runTimer () {
     this.#timer = setInterval(() => {
+      if (!this._isMounted) return
+
       this.setState(({ time }) => {
         const newTime = time - 1
 
