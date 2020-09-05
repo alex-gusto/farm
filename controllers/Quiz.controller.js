@@ -11,14 +11,19 @@ class QuizController extends AbstractController {
   check = async (ctx) => {
     const { answers, id } = ctx.request.body
 
-    quiz.once('success', () => {
+    function onQuizSuccess () {
+      quiz.off('fail', onQuizFail)
       ctx.body = 'OK'
-    })
+    }
 
-    quiz.once('fail', (errors) => {
+    function onQuizFail (errors) {
+      quiz.off('success', onQuizSuccess)
       ctx.status = 422
       ctx.body = JSON.stringify(errors)
-    })
+    }
+
+    quiz.once('success', onQuizSuccess)
+    quiz.once('fail', onQuizFail)
 
     quiz.checkQuiz(id, answers)
   }
