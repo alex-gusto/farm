@@ -144,12 +144,12 @@ class PlayerCanvas extends Component {
           </div>
         </div>
 
-        <div className="d-flex">
-          <div className="col pr-5">
+        <div className="row">
+          <div className="col-md pr-5">
             <FarmGrid farm={farm} market={market} onSelect={this.selectAnimal}/>
           </div>
 
-          <div className="col-auto">
+          <div className="col-md-auto">
             <div className="exchanger">
               <BaseIconButton
                 onClick={this.resetChosenAnimals}
