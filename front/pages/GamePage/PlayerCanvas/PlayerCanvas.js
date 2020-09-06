@@ -165,11 +165,11 @@ class PlayerCanvas extends Component {
 
               <div className="exchanger__inner">
                 <div className="exchanger-animal">
-                  <img src={get(formData, 'from.image')} alt=""/>
+                  <img src={get(formData, 'from.image')} alt={get(formData, 'from.name')}/>
                 </div>
                 <span>to</span>
                 <div className="exchanger-animal">
-                  <img src={get(formData, 'to.image')} alt=""/>
+                  <img src={get(formData, 'to.image')} alt={get(formData, 'to.name')} />
                 </div>
               </div>
 
