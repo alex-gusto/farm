@@ -58,7 +58,7 @@ export default function (props) {
     <div className={rootClassName} onClick={onClick}>
       {exchangerContent()}
       <img src={bg()} className="farm-animal-bg" alt=""/>
-      <img src={image} alt="{name}" className="farm-animal-image"/>
+      <img src={image} alt={name} className="farm-animal-image"/>
       {nameContent}
     </div>
   )
