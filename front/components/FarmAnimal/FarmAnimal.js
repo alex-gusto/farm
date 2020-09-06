@@ -48,7 +48,6 @@ export default function (props) {
     const animals = exchanger.map(({ animal, coef }, key) => (
       <div className="farm-animal-exchanger__animal" key={key} data-coef={convertCoef(coef)}>
         <img src={animal.image} alt={animal.name}/>
-{animal.name}
       </div>
     ))
 
@@ -59,7 +58,7 @@ export default function (props) {
     <div className={rootClassName} onClick={onClick}>
       {exchangerContent()}
       <img src={bg()} className="farm-animal-bg" alt=""/>
-      <img src={image} alt="" className="farm-animal-image"/>
+      <img src={image} alt="{name}" className="farm-animal-image"/>
       {nameContent}
     </div>
   )
