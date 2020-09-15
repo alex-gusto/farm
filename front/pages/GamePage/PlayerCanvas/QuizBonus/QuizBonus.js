@@ -30,7 +30,7 @@ class QuizBonus extends Component {
       return (
         <QuizBlock onSuccess={this.onSuccess}
                    onClose={onClose}
-                   getUrl={`/games/quiz/${gameId}`}
+                   getUrl={`/games/quiz/${gameId}/${userId}`}
                    postUrl={`/games/quiz/${gameId}/${userId}`}
         />
       )

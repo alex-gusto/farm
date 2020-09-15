@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useContext } from 'react'
 import api from '~/front/api'
 import FarmAnimal from '~/front/components/FarmAnimal'
 import gsap from 'gsap'
+import { NotificationContext } from '~/front/providers/NotificationProvider'
 
 // import GSDevTools from 'assets/js/vendors/GSDevTools'
 //
@@ -9,6 +10,7 @@ import gsap from 'gsap'
 
 export default function DiceRoll ({ gameId, userId, onClose }) {
   const [ result, changeResult ] = useState([])
+  const notifications = useContext(NotificationContext)
   const rocketEl = useRef(null)
 
   const rocketFly = () => {
@@ -52,7 +54,7 @@ export default function DiceRoll ({ gameId, userId, onClose }) {
         const { data } = await api.put(`/games/${gameId}/${userId}/make-move`)
         changeResult(data.diceAnimals)
       } catch ({ response }) {
-        this.context.show({
+        notifications.show({
           content: response.data,
           type: 'danger'
         })

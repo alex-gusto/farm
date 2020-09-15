@@ -87,9 +87,9 @@ class GameController extends AbstractController {
   }
 
   getQuiz = (ctx) => {
-    const { gameId } = ctx.params
+    const { gameId, userId } = ctx.params
     const game = GameRepository.getGame(gameId)
-    ctx.body = game.getQuiz()
+    ctx.body = game.getQuiz(userId)
   }
 
   checkQuiz = async (ctx) => {

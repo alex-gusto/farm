@@ -6,7 +6,7 @@ const router = new Router()
 
 router.get('/:gameId', ctrl.getPlayers)
 
-router.get('/quiz/:gameId', ctrl.getQuiz)
+router.get('/quiz/:gameId/:userId', ctrl.getQuiz)
 
 router.post('/quiz/:gameId/:userId', ctrl.checkQuiz)
 

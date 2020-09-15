@@ -81,7 +81,7 @@ class PlayerCanvas extends Component {
   }
 
   render () {
-    const { farm, turn, name } = this.props
+    const { farm, turn, name, bonusPrice } = this.props
     const { isDiceOpen, formData, isQuizOpen, quizUsed, isLoading, market } = this.state
 
     return (
@@ -106,13 +106,20 @@ class PlayerCanvas extends Component {
               </BaseButton>
             </div>
 
-            <div className="col-auto">
+            <div className="col-auto position-relative">
               <BaseButton
                 color="orange"
-                disabled={!turn || quizUsed}
+                disabled={!turn || quizUsed || farm[0].total < bonusPrice}
                 onClick={this.openQuizBonus}
-              >Get Bonus
+              >
+                Get Bonus
               </BaseButton>
+              <BaseIconButton
+                  size="small"
+                  color="blue"
+                  className="get-bonus-button-tooltip">
+                {bonusPrice}
+              </BaseIconButton>
             </div>
           </div>
         </div>
