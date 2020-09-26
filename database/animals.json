@@ -8,54 +8,54 @@
   },
   {
     "id": 1,
-    "name": "Pigs",
+    "name": "Pig",
     "type": 0,
     "maxCount": 80,
     "image": "/img/animals/pig.svg"
   },
   {
     "id": 2,
-    "name": "Sheep",
+    "name": "Zebra",
     "type": 0,
     "maxCount": 50,
-    "image": "/img/animals/sheep.svg"
+    "image": "/img/animals/zebra.svg"
   },
   {
     "id": 3,
-    "name": "Horses",
+    "name": "Deer",
     "type": 0,
     "maxCount": 30,
-    "image": "/img/animals/horse.svg"
+    "image": "/img/animals/deer.svg"
   },
   {
     "id": 4,
-    "name": "Cows",
+    "name": "Elephant",
     "type": 0,
     "maxCount": 20,
-    "image": "/img/animals/cow.svg"
+    "image": "/img/animals/elephant.svg"
   },
   {
     "id": 5,
-    "name": "Cat",
+    "name": "Dog",
     "type": 1,
     "maxCount": 1,
     "count": 1,
-    "image": "/img/animals/cat.svg"
-  },
-  {
-    "id": 6,
-    "name": "Dog",
-    "count": 0.6,
-    "type": 1,
-    "maxCount": 1,
     "image": "/img/animals/dog.svg"
   },
   {
+    "id": 6,
+    "name": "Rhino",
+    "count": 0.6,
+    "type": 1,
+    "maxCount": 1,
+    "image": "/img/animals/Rhino.svg"
+  },
+  {
     "id": 7,
-    "name": "Fox",
+    "name": "Bear",
     "type": 2,
     "maxCount": null,
-    "image": "/img/animals/fox.svg",
+    "image": "/img/animals/bear.svg",
     "against": [
       5
     ],
@@ -66,10 +66,10 @@
   },
   {
     "id": 8,
-    "name": "Bear",
+    "name": "Lion",
     "type": 2,
     "maxCount": null,
-    "image": "/img/animals/bear.svg",
+    "image": "/img/animals/lion.svg",
     "against": [
       6
     ],
