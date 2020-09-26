@@ -1,38 +1,38 @@
 [
   {
     "id": 0,
-    "name": "Rabbits",
+    "name": "Rabbit",
     "type": 0,
     "maxCount": 120,
-    "image": "/img/rabbit.svg"
+    "image": "/img/animals/rabbit.svg"
   },
   {
     "id": 1,
     "name": "Pigs",
     "type": 0,
     "maxCount": 80,
-    "image": "/img/pig.svg"
+    "image": "/img/animals/pig.svg"
   },
   {
     "id": 2,
     "name": "Sheep",
     "type": 0,
     "maxCount": 50,
-    "image": "/img/sheep.svg"
+    "image": "/img/animals/sheep.svg"
   },
   {
     "id": 3,
     "name": "Horses",
     "type": 0,
     "maxCount": 30,
-    "image": "/img/horse.svg"
+    "image": "/img/animals/horse.svg"
   },
   {
     "id": 4,
     "name": "Cows",
     "type": 0,
     "maxCount": 20,
-    "image": "/img/cow.svg"
+    "image": "/img/animals/cow.svg"
   },
   {
     "id": 5,
@@ -40,7 +40,7 @@
     "type": 1,
     "maxCount": 1,
     "count": 1,
-    "image": "/img/cat.svg"
+    "image": "/img/animals/cat.svg"
   },
   {
     "id": 6,
@@ -48,14 +48,14 @@
     "count": 0.6,
     "type": 1,
     "maxCount": 1,
-    "image": "/img/dog.svg"
+    "image": "/img/animals/dog.svg"
   },
   {
     "id": 7,
     "name": "Fox",
     "type": 2,
     "maxCount": null,
-    "image": "/img/fox.svg",
+    "image": "/img/animals/fox.svg",
     "against": [
       5
     ],
@@ -69,7 +69,7 @@
     "name": "Bear",
     "type": 2,
     "maxCount": null,
-    "image": "/img/bear.svg",
+    "image": "/img/animals/bear.svg",
     "against": [
       6
     ],
@@ -84,7 +84,7 @@
     "name": "Tiger",
     "type": 2,
     "maxCount": 10,
-    "image": "/img/tiger.svg",
+    "image": "/img/animals/tiger.svg",
     "against": [
       9
     ],
