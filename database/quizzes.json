@@ -104,6 +104,32 @@
     }
   },
   {
+    "id": 2,
+    "name": "English - Russian: jobs",
+    "disabled": false,
+    "list": {
+      "an actor": "актер",
+      "a builder": "строитель",
+      "an engineer": "инженер",
+      "a footballer": "футболист",
+      "a hairdresser": "парикмахер",
+      "a housewife": "домработница",
+      "a journalist": "журналист",
+      "a lawyer": "адвокат",
+      "a manager": "менеджер",
+      "a musician": "музыкант",
+      "a nurse": "медсестра",
+      "a pilot": "пилот",
+      "a police officer": "полицейский",
+      "a politician": "политик",
+      "a receptionist": "администратор",
+      "a secretary": "секретарь",
+      "a shop assistant": "продавец",
+      "a student": "студент",
+      "a waiter": "официант"
+    }
+  },
+  {
     "id": 3,
     "name": "English - Russian",
     "disabled": false,
@@ -166,8 +192,25 @@
       "to guess": "угадать",
       "to see": "видеть;смотреть;понимать;увидеть;посмотреть",
       "to worry": "переживать;беспокоиться;волноваться",
-      "a pocket": "карман",
-      "Canada": "Канада"
+      "a pocket": "карман"
+    }
+  },
+  {
+    "id": 4,
+    "name": "English - Russian",
+    "disabled": false,
+    "list": {
+      "popular": "популярный",
+      "incredible": "потрясающий;невероятный",
+      "typical": "типичный",
+      "fantastic": "фантастичный",
+      "terrible": "ужасный",
+      "just": "просто",
+      "everywhere": "везде",
+      "really": "действительно",
+      "too": "также",
+      "a lot of": "много",
+      "many": "много"
     }
   },
   {
